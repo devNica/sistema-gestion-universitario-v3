@@ -1,0 +1,24 @@
+{
+  "name": "healthy_wallet_core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "prepare": "husky install",
+    "lint:fix": "eslint . --fix --ext .ts"
+  },
+  "keywords": [],
+  "author": "A. Alejandro G. Sanchez",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "eslint": "^8.56.0",
+    "eslint-config-standard-with-typescript": "^43.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "typescript": "^5.3.3"
+  }
+}
