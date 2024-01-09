@@ -6,7 +6,11 @@
   "scripts": {
     "prepare": "husky install",
     "lint:fix": "eslint . --fix --ext .ts",
-    "dev": "tsnd --respawn --transpile-only --files src/server.ts"
+    "dev": "tsnd --respawn --transpile-only --files src/server.ts",
+    "release": "standard-version",
+    "release:patch": "standard-version --release-as patch",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major"
   },
   "keywords": [],
   "author": "A. Alejandro G. Sanchez",
@@ -30,6 +34,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "rimraf": "^5.0.5",
+    "standard-version": "^9.5.0",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
