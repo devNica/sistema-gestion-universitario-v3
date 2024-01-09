@@ -1,11 +1,11 @@
 import { getDatabaseCredential } from '@core/configs/db-credential.config'
 import { type UserAccountEntity } from '@core/models/entities/UserAccountEntity'
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
 
 const db = getDatabaseCredential()
 
 @Entity({ name: 'user_account', schema: db.DB_SCHEMA })
-export class UserAccountModel implements UserAccountEntity {
+export class UserAccountModel extends BaseEntity implements UserAccountEntity {
   @Unique(['id'])
 
   @PrimaryGeneratedColumn('uuid')
