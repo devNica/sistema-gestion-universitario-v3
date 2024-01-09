@@ -5,6 +5,11 @@ declare global {
       SERVER_PORT: string
       NODE_ENV: 'development' | 'test' | 'production'
 
+      JWT_SECRET: string
+      JWT_SECRET_REFRESH: string
+      JWT_SECRET_EXPIRATION_SECS: number
+      JWT_SECRET_REFRESH_EXPIRATION_SECS: number
+
       DB_SCHEMA_PROD: string
       DB_NAME_PROD: string
       DB_USER_PROD: string

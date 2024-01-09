@@ -1,4 +1,4 @@
-import { type PasswordEncryptorOutputPort } from '@core/ports/security/password-encryptor-output.port'
+import { type PasswordEncryptorOutputPort } from '@core/ports/output/security/password-encryptor-output.port'
 import argon from 'argon2'
 
 class PasswordEncryptorService implements PasswordEncryptorOutputPort {

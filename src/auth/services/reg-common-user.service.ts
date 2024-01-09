@@ -1,6 +1,6 @@
 import { type UserRegisterServiceModel } from '@auth/models/services/auth-service.model'
 import { type InsertUserRepoI } from '@core/ports/output/repositories/user-repository-output.port'
-import { type PasswordEncryptorOutputPort } from '@core/ports/security/password-encryptor-output.port'
+import { type PasswordEncryptorOutputPort } from '@core/ports/output/security/password-encryptor-output.port'
 
 export interface RegisterCommonUserSrvI {
   createCommonUser: (data: UserRegisterServiceModel) => Promise<void>
