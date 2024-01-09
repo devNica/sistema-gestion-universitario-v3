@@ -11,8 +11,9 @@ export const appDataSource = new DataSource({
   password: db.DB_PASSWORD,
   database: db.DB_NAME,
   synchronize: true,
-  logging: false,
+  logging: true,
   entities: ['src/core/adapters/secondary/orm/typeorm/models/**/*.ts'],
   subscribers: [],
-  migrations: []
+  migrations: [],
+  uuidExtension: 'pgcrypto'
 })
