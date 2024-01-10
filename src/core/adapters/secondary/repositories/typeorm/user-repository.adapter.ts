@@ -16,7 +16,6 @@ class UserRepositoryAdapter implements InsertUserRepoI, FetchUserByParamsRepoI {
     try {
       const rows = await UserAccountModel.find({
         where: [
-          { id: Like(`%${data.id ?? '-'}%`) },
           { username: Like(`%${data.username ?? '-'}%`) },
           { email: Like(`%${data.email ?? '-'}%`) }
         ]
@@ -24,6 +23,7 @@ class UserRepositoryAdapter implements InsertUserRepoI, FetchUserByParamsRepoI {
 
       return rows
     } catch (error) {
+      console.log('error repository: ', error)
       throw new Error(String(error))
     }
   }
@@ -31,7 +31,9 @@ class UserRepositoryAdapter implements InsertUserRepoI, FetchUserByParamsRepoI {
 
 const userRepositoryAdapter = new UserRepositoryAdapter()
 const insertUserRepo: InsertUserRepoI = userRepositoryAdapter
+const fetchUsersByParamsRepo: FetchUserByParamsRepoI = userRepositoryAdapter
 
 export {
-  insertUserRepo
+  insertUserRepo,
+  fetchUsersByParamsRepo
 }
