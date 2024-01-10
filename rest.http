@@ -15,3 +15,14 @@ Content-Type: application/json
     "email": "user1s@test.com",
     "password": "Prueba123*"
 }
+
+
+### profile  
+PATCH  http://localhost:9870/hw/core/v1/auth/profile/f0ef31b3-b7d6-426e-ac99-a1a4f552ac0e HTTP/1.1
+Content-Type: application/json
+
+{
+    "phoneNumber": "435654788",
+    "fullname": "soyOtro",
+    "email": "user4@test.com"
+}

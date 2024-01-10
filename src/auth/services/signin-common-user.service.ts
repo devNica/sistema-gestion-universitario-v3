@@ -34,7 +34,7 @@ export default class SigninCommonUserService implements SigninCommonUserSrvI {
     return {
       id: user[0].id,
       email: user[0].email,
-      username: user[0].username,
+      fullname: user[0].fullname,
       token
     }
   }

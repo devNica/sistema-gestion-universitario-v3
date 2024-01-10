@@ -15,7 +15,7 @@ export class UserAccountModel extends BaseEntity implements UserAccountEntity {
     email: string
 
   @Column({ unique: true, nullable: true })
-    username!: string
+    fullname!: string
 
   @Column({ length: 255, nullable: false })
     password: string
