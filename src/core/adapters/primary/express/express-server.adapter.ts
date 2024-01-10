@@ -1,4 +1,6 @@
+import authRouter from '@auth/routes/auth.routes'
 import { type ControllerModel } from '@core/models/api/controller.model'
+import constants from '@core/shared/constants'
 import { setupAsyncErrors } from '@frameworks/express/express-setup-async-error'
 import { setupGlobalMiddleware } from '@frameworks/express/express-setup-global-middlewares'
 import { setupProxy } from '@frameworks/express/express-setup-proxy'
@@ -16,7 +18,7 @@ export class ExpressHttpServerAdapter {
   ) {}
 
   private async addController (): Promise<void> {
-
+    this.controllers.push({ path: `${constants.PREFIX}/auth`, controller: authRouter })
   }
 
   public async start (): Promise<void> {

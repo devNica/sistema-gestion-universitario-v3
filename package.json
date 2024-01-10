@@ -1,6 +1,6 @@
 {
   "name": "healthy_wallet_core",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "server.ts",
   "scripts": {
@@ -24,6 +24,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.10.7",
+    "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.18.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.56.0",
@@ -41,7 +42,8 @@
   },
   "_moduleAliases": {
     "@core": "src/core",
-    "@frameworks": "src/frameworks"
+    "@frameworks": "src/frameworks",
+    "@auth": "src/auth"
   },
   "dependencies": {
     "argon2": "^0.31.2",
@@ -49,12 +51,14 @@
     "express": "^4.18.2",
     "handlebars": "^4.7.8",
     "helmet": "^7.1.0",
+    "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "morgan": "^1.10.0",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.2.1",
+    "typeorm": "^0.3.19",
     "uuid": "^9.0.1"
   }
 }
