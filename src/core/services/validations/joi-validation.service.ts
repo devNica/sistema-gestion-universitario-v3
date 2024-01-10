@@ -3,8 +3,8 @@ import { type HttpRequestModel } from '@core/models/http/http-request.model'
 import { type JoiErrorDetailsModel, type JoiSchemaModel, type JoiValidationResultModel } from '@core/models/validations/joi-validation.model'
 import { type JoiValidationSchemaInputPort } from '@core/ports/input/joi-validation-input.port'
 import { type MiddlewareInputPort } from '@core/ports/input/middleware-input.port'
-import { RequestValidationErrorAdapter } from '@core/adapters/primary/errors/request-validation-error.adapter'
 import { serializeErrorStack } from '@core/shared/utils/serialized-error-stack'
+import RequestValidationErrorPresenter from '@core/adapters/primary/presenters/req-validation-error.presenter'
 
 export class JoiValidationService <T> implements MiddlewareInputPort, JoiValidationSchemaInputPort {
   constructor (
@@ -20,7 +20,7 @@ export class JoiValidationService <T> implements MiddlewareInputPort, JoiValidat
       await this.validate(this.schema, request)
     } catch (error: any) {
       const details: JoiErrorDetailsModel[] = error.details
-      throw new RequestValidationErrorAdapter(serializeErrorStack(details))
+      throw new RequestValidationErrorPresenter(serializeErrorStack(details))
     }
   }
 }

@@ -1,6 +1,6 @@
 import { type UserLoginResponseModel } from '@auth/models/controllers/auth.controller.model'
 import { type SigninCommonUserSrvI } from '@auth/services/signin-common-user.service'
-import { DefaultApplicationErrorAdapter } from '@core/adapters/primary/errors/default-application-error.adapter'
+import RequestValidationErrorPresenter from '@core/adapters/primary/presenters/req-validation-error.presenter'
 import { type HttpRequestModel } from '@core/models/http/http-request.model'
 import { type HttpResponseModel } from '@core/models/http/http-response.model'
 import { type ControllerInputPort } from '@core/ports/input/controller-input.port'
@@ -14,16 +14,12 @@ export class SigninCommonUserController implements ControllerInputPort<UserLogin
   ) {}
 
   async handleRequest (request: HttpRequestModel<{ email: string, password: string }>): Promise<HttpResponseModel<UserLoginResponseModel>> {
-    try {
-      if (!objectKeyExists(request, 'body')) {
-        throw new Error('Invalid Request')
-      }
-
-      const { email, password } = request.body
-      const result = await this.service.signinCommonUser({ email, password })
-      return await this.presenter.handleResponse(result, 'Successfull')
-    } catch (error) {
-      throw new DefaultApplicationErrorAdapter(String(error))
+    if (!objectKeyExists(request, 'body')) {
+      throw new RequestValidationErrorPresenter('Error en el cuerpo de la peticion')
     }
+
+    const { email, password } = request.body
+    const result = await this.service.signinCommonUser({ email, password })
+    return await this.presenter.handleResponse(result, 'Successfull')
   }
 }
