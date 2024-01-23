@@ -15,8 +15,14 @@ export class CustomCategoryModel extends BaseEntity implements CustomCategoryEnt
   @Column({ unique: true, nullable: false })
     category: string
 
-  @Column({ unique: true, nullable: true, name: 'parent_ref' })
+  @Column({ unique: false, nullable: true, name: 'parent_ref' })
     parentRef!: string
+
+  @Column({ unique: false, nullable: false, name: 'has_childrens' })
+    hasChildrens: boolean
+
+  @Column({ nullable: false, type: 'bit' })
+    flow: number
 
   @Column({ default: true, nullable: false, name: 'is_active' })
     isActive: boolean

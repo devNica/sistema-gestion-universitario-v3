@@ -11,7 +11,9 @@ class CategoryRepositoryAdapter implements InsertCommonProductCategoryI {
       await CommonCategoryModel.save({
         category: data.category,
         parentRef: data.parentRef ?? '',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        hasChildrens: data.hasChildrens,
+        flow: data.flow
       })
     } catch (error) {
       if (error instanceof QueryFailedError) {
@@ -24,8 +26,8 @@ class CategoryRepositoryAdapter implements InsertCommonProductCategoryI {
 }
 
 const categoryRepoAdapter = new CategoryRepositoryAdapter()
-const insertCommonRepo: InsertCommonProductCategoryI = categoryRepoAdapter
+const insertCommonCategoryRepo: InsertCommonProductCategoryI = categoryRepoAdapter
 
 export {
-  insertCommonRepo
+  insertCommonCategoryRepo
 }
