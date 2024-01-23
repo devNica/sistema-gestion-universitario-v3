@@ -1,6 +1,7 @@
 import { getDatabaseCredential } from '@core/configs/db-credential.config'
 import { type UserAccountEntity } from '@core/models/entities/UserAccountEntity'
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm'
+import { CustomCategoryModel } from './CustomProductCategoryModel'
 
 const db = getDatabaseCredential()
 
@@ -37,4 +38,7 @@ export class UserAccountModel extends BaseEntity implements UserAccountEntity {
 
   @Column({ name: 'updated_at', nullable: true })
     updatedAt!: string
+
+  @OneToMany(() => CustomCategoryModel, cat => cat.id)
+    categories: CustomCategoryModel[]
 }
