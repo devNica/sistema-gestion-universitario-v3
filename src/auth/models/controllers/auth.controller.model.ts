@@ -1,6 +1,13 @@
 export interface UserLoginResponseModel {
   id: string
-  username: string
+  fullname: string
   email: string
   token: string
+}
+
+export interface UpdateProfileControllerModel {
+  id: string
+  email?: string
+  phoneNumber?: string
+  fullname?: string
 }

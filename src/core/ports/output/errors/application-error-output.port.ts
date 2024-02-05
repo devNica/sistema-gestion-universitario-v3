@@ -1,4 +1,4 @@
-export interface ApplicationErrorModel {
+export interface ApplicationErrorOutputPort {
   statusCode: number
   message: string
   messages?: string[]

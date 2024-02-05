@@ -1,4 +1,4 @@
-import { type ApplicationErrorModel } from '@core/models/errors/application-error.model'
+import { type ApplicationErrorOutputPort } from '@core/ports/output/errors/application-error-output.port'
 import { type ControllerInputPort } from '@core/ports/input/controller-input.port'
 import { type NextFunction, type Request, type Response } from 'express'
 
@@ -12,7 +12,7 @@ export function expressRouteAdapter<T> (controller: ControllerInputPort<T>) {
     })).then(ctrl => {
       response.status(ctrl.statusCode).json({ data: ctrl.meta, message: ctrl.message })
       next()
-    }).catch((error: ApplicationErrorModel) => {
+    }).catch((error: ApplicationErrorOutputPort) => {
       next(error)
     })
   }

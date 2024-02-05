@@ -1,7 +1,7 @@
 export interface UserAccountEntity {
   id: string
   email: string
-  username: string
+  fullname: string
   password: string
   phoneNumber: string
   twoFactorAuth: boolean

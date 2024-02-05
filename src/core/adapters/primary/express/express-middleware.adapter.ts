@@ -1,4 +1,4 @@
-import { type ApplicationErrorModel } from '@core/models/errors/application-error.model'
+import { type ApplicationErrorOutputPort } from '@core/ports/output/errors/application-error-output.port'
 import { type MiddlewareInputPort } from '@core/ports/input/middleware-input.port'
 import { type NextFunction, type Request, type Response } from 'express'
 
@@ -13,7 +13,7 @@ export function expressMiddlewareAdapter (middleware: MiddlewareInputPort) {
         method: request.method
       })
         .then(() => { next() })
-        .catch((error: ApplicationErrorModel) => {
+        .catch((error: ApplicationErrorOutputPort) => {
           next(error)
         })
     )

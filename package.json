@@ -43,7 +43,8 @@
   "_moduleAliases": {
     "@core": "src/core",
     "@frameworks": "src/frameworks",
-    "@auth": "src/auth"
+    "@auth": "src/auth",
+    "@maintenance": "src/maintenance"
   },
   "dependencies": {
     "argon2": "^0.31.2",
