@@ -8,6 +8,7 @@ const sequelizeOptions = {
   password: db.DB_PASSWORD,
   database: db.DB_NAME,
   options: {
+    schema: db.DB_SCHEMA,
     dialect: db.DB_DIALECT,
     host: db.DB_HOST,
     dialectOptions: {

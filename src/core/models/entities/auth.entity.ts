@@ -29,11 +29,12 @@ export interface ProfileInfoEntity {
   lastname: string
   birthdate: string
   dni: string
+  phoneNumber: string
   nationality: string
   address: string
 }
 
-export interface ProfilePicture {
+export interface ProfileHasPictureEntity {
   profileId: UUID
   fileId: UUID
 }
