@@ -1,11 +1,8 @@
-import authRouter from '@auth/routes/auth.routes'
 import { type ControllerModel } from '@core/models/api/controller.model'
-import constants from '@core/shared/constants'
 import { setupAsyncErrors } from '@frameworks/express/express-setup-async-error'
 import { setupGlobalMiddleware } from '@frameworks/express/express-setup-global-middlewares'
 import { setupProxy } from '@frameworks/express/express-setup-proxy'
 import { setupRoutes } from '@frameworks/express/express-setup-routes'
-import maintenanceRouter from '@maintenance/routes/maintenance.routes'
 import { type Application } from 'express'
 import { type Server } from 'http'
 
@@ -19,8 +16,8 @@ export class ExpressHttpServerAdapter {
   ) {}
 
   private async addController (): Promise<void> {
-    this.controllers.push({ path: `${constants.PREFIX}/auth`, controller: authRouter })
-    this.controllers.push({ path: `${constants.PREFIX}/maintenance`, controller: maintenanceRouter })
+    // this.controllers.push({ path: `${constants.PREFIX}/auth`, controller: authRouter })
+    // this.controllers.push({ path: `${constants.PREFIX}/maintenance`, controller: maintenanceRouter })
   }
 
   public async start (): Promise<void> {

@@ -43,8 +43,7 @@
   "_moduleAliases": {
     "@core": "src/core",
     "@frameworks": "src/frameworks",
-    "@auth": "src/auth",
-    "@maintenance": "src/maintenance"
+    "@auth": "src/auth"
   },
   "dependencies": {
     "argon2": "^0.31.2",
@@ -59,7 +58,7 @@
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.2.1",
-    "typeorm": "^0.3.19",
+    "typeorm": "^0.3.20",
     "uuid": "^9.0.1"
   }
 }
