@@ -1,23 +1,36 @@
 import { checkAgeRequirement } from '@core/shared/utils/check-age'
 import Joi from 'joi'
 
-export const userAccountRegistrationSchema: Joi.ObjectSchema = Joi.object({
-  email: Joi.string().email().required().messages({
-    'any.required': 'Correo es requerido',
-    'string.base': 'Formato de correo incorrecto',
-    'string.email': 'Direccion de correo invalido'
+export const userLoginSchema: Joi.ObjectSchema = Joi.object({
+  username: Joi.string().required().messages({
+    'any.required': 'Nombre de usuario es requerido',
+    'string.base': 'Formato del nombre de usuario incorrecto'
   }),
-  password: Joi.string().min(8).max(15).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/).required().messages({
+  password: Joi.string().min(8).max(15).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!*?&])[A-Za-z\d@$!*?&]{8,15}$/).required().messages({
+    'any.required': 'Password es requerido',
+    'string.base': 'Formato del password es incorrecto',
+    'string.pattern.base': 'Formato del password es requerido',
+    'string.min': 'El password debe tener al menos 8 caracteres',
+    'string.max': 'El password no debe exceder los 15 caracteres'
+  })
+})
+
+export const resetUserAccountPasswordSchema: Joi.ObjectSchema = Joi.object({
+  username: Joi.string().required().messages({
+    'any.required': 'Nombre de usuario es requerido',
+    'string.base': 'Formato del nombre de usuario incorrecto'
+  }),
+  newPassword: Joi.string().min(8).max(15).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!*?&])[A-Za-z\d@$!*?&]{8,15}$/).required().messages({
     'any.required': 'Password es requerido',
     'string.base': 'Formato del password es requerido',
     'string.pattern.base': 'Formato del password es requerido',
     'string.min': 'El password debe tener al menos 8 caracteres',
     'string.max': 'El password no debe exceder los 15 caracteres'
-  }),
-  profileId: Joi.string().guid({ version: 'uuidv4' }).required().messages({
-    'any.required': 'ID de asociacion al perfil es requerido',
-    'string.base': 'El ID del perfil es incorrecto'
   })
+  // profileId: Joi.string().guid({ version: 'uuidv4' }).required().messages({
+  //   'any.required': 'ID de asociacion al perfil es requerido',
+  //   'string.base': 'El ID del perfil es incorrecto'
+  // })
 })
 
 export const applicantInformationSchema: Joi.ObjectSchema = Joi.object({

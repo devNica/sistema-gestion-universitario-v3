@@ -20,6 +20,6 @@ export default class UniversitaryApplicantRegistrationController implements Cont
     }
 
     const result = await this.service.register({ ...request.body })
-    return await this.presenter.handleResponse(result, 'Success')
+    return await this.presenter.handleResponse(result, 'Registro de Aspirante Universitatio Exitoso')
   }
 }

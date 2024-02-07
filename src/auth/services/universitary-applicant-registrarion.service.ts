@@ -4,7 +4,7 @@ import { type CreateUserAccountOP, type FetchRolByNameOP } from '@auth/ports/out
 import { type PasswordEncryptorOutputPort } from '@core/ports/output/security/password-encryptor-output.port'
 import constants from '@core/shared/constants'
 import { generateRandomSeries } from '@core/shared/utils/generate-random-serie'
-import { generateUsername } from '@core/shared/utils/generate-username'
+import { generateUsername, sanitizeInputStrings } from '@core/shared/utils/generate-username'
 
 export interface UniversitaryApplicantRegistrationSrvI {
   register: (request: UniversitaryApplicantRegistrationIC) => Promise<UniversitaryApplicantRegistrationOC>
@@ -18,9 +18,12 @@ export default class UniversitaryApplicantRegistrarionService implements Univers
   ) {}
 
   async register (request: UniversitaryApplicantRegistrationIC): Promise<UniversitaryApplicantRegistrationOC> {
-    const password = generateRandomSeries(10, constants.CHAR_MAYOR)
+    const password = generateRandomSeries(10, constants.CHAR_MAYOR) + generateRandomSeries(1, constants.CHAR_SPEC)
 
-    const username = generateUsername(request.firstname, request.lastname) + generateRandomSeries(3, constants.CHAR_MINOR)
+    const santizeFirstname = sanitizeInputStrings(request.firstname)
+    const sanitizeLastname = sanitizeInputStrings(request.lastname)
+
+    const username = generateUsername(santizeFirstname, sanitizeLastname) + generateRandomSeries(3, constants.CHAR_MINOR)
 
     const rol = await this.rolPort.fetchRol('invitado')
 

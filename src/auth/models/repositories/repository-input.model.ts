@@ -1,14 +1,14 @@
 import { type UUID } from '@core/models/generic/custom-types.model'
-import { type UniversitaryApplicantRegistrationIC, type UserProfileRegistrationIC, type UserRegistrationIC } from '../controllers/controller-input.model'
-
-export type UserRegistrationIR = Pick<UserRegistrationIC, 'username' | 'profileId'> & {
-  passwordHashed: string
-}
-
-export type UserProfileRegistrationIR = Required<UserProfileRegistrationIC>
+import { type UserLoginIC, type ResetUserPasswordIC, type UniversitaryApplicantRegistrationIC } from '../controllers/controller-input.model'
 
 export type UniversitaryApplicantRegistrationIR = Required<UniversitaryApplicantRegistrationIC> & {
   username: string
   passwordHashed: string
   rolId: UUID
 }
+
+export type ResetUserPasswordIR = Omit<ResetUserPasswordIC, 'newPassword'> & {
+  passwordHashed: string
+}
+
+export type FetchUserAccountIR = Pick<UserLoginIC, 'username'>

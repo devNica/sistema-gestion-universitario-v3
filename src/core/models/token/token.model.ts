@@ -1,4 +1,4 @@
-// import { type UserAccountEntity } from '../entities/UserAccountEntity'
+import { type UserAccountEntity } from '../entities/auth.entity'
 
 export interface TokenModel {
   userId: string
@@ -6,8 +6,7 @@ export interface TokenModel {
   expiresIn: string
 }
 
-export interface TokenPayloadModel {
-  userId: string
+export type TokenPayloadModel = Pick<UserAccountEntity, 'id'> & {
   rol: string
 }
 

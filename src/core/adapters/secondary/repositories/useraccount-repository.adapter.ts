@@ -1,14 +1,15 @@
-import { type UniversitaryApplicantRegistrationIR } from '@auth/models/repositories/repository-input.model'
-import { type FetchRolByNameOP, type CreateUserAccountOP } from '@auth/ports/output/auth-repository.output.port'
-import { type Sequelize, UniqueConstraintError, QueryError, ValidationError } from 'sequelize'
+import { type FetchUserAccountIR, type ResetUserPasswordIR, type UniversitaryApplicantRegistrationIR } from '@auth/models/repositories/repository-input.model'
+import { type FetchRolByNameOP, type CreateUserAccountOP, type UpdateUserAccountPasswordOP, type FetchAccountByUsernameOP } from '@auth/ports/output/auth-repository.output.port'
+import { type Sequelize, UniqueConstraintError, QueryError, ValidationError, QueryTypes } from 'sequelize'
 import RepositoryValidationErrorPresenter from '@core/adapters/primary/presenters/repository-validation-error.presenter'
 import InternalServerErrorPresenter from '@core/adapters/primary/presenters/internal-server-error.presenter'
-import { type RolOR, type UserAccountOR } from '@auth/models/repositories/repository-output.model'
+import { type UserProfileOR, type RolOR, type UserAccountOR } from '@auth/models/repositories/repository-output.model'
 import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { ProfileInfoModel, RolModel, UserAccountModel, UserHasRoleModel } from '../orm/sequelize/models'
 import { type UserAccountEntity } from '@core/models/entities/auth.entity'
+import { fetchAccountByUsernameQuery } from './queries/auth.query'
 
-class UserAccountRepositoryAdapter implements CreateUserAccountOP, FetchRolByNameOP {
+class UserAccountRepositoryAdapter implements CreateUserAccountOP, FetchRolByNameOP, UpdateUserAccountPasswordOP, FetchAccountByUsernameOP {
   constructor (
     private readonly db: Sequelize
   ) { }
@@ -70,13 +71,56 @@ class UserAccountRepositoryAdapter implements CreateUserAccountOP, FetchRolByNam
       }
     }
   }
+
+  async updatePassword (data: ResetUserPasswordIR): Promise<void> {
+    try {
+      const user = await UserAccountModel.findOne({ where: { username: data.username } })
+      if (user === null) throw new RepositoryValidationErrorPresenter('Usuario no encontrado')
+      user.password = data.passwordHashed
+      await user.save()
+    } catch (error) {
+      if (error instanceof QueryError) {
+        throw new RepositoryValidationErrorPresenter(error.message)
+      } else if (error instanceof RepositoryValidationErrorPresenter) {
+        throw new InternalServerErrorPresenter(error.message)
+      } else {
+        throw new InternalServerErrorPresenter('Contraseña no pudo ser actualizada')
+      }
+    }
+  }
+
+  async fetchAccount (data: FetchUserAccountIR): Promise<UserProfileOR | never> {
+    try {
+      const user: UserProfileOR[] = await this.db.query(fetchAccountByUsernameQuery(), {
+        replacements: {
+          username: data.username
+        },
+        type: QueryTypes.SELECT
+      })
+
+      if (user.length === 0) throw new RepositoryValidationErrorPresenter('Usuario no encontrado')
+      return { ...user[0] }
+    } catch (error) {
+      if (error instanceof QueryError) {
+        throw new RepositoryValidationErrorPresenter(error.message)
+      } else if (error instanceof RepositoryValidationErrorPresenter) {
+        throw new InternalServerErrorPresenter(error.message)
+      } else {
+        throw new InternalServerErrorPresenter('Contraseña no pudo ser actualizada')
+      }
+    }
+  }
 }
 
 const userAccountRepoAdapter = new UserAccountRepositoryAdapter(sequelizeInstance)
 const createUserAccountRepo: CreateUserAccountOP = userAccountRepoAdapter
 const fetchRolByNameRepo: FetchRolByNameOP = userAccountRepoAdapter
+const updateUserAccountPasswordRepo: UpdateUserAccountPasswordOP = userAccountRepoAdapter
+const fetchAccountByUsernameRepo: FetchAccountByUsernameOP = userAccountRepoAdapter
 
 export {
   createUserAccountRepo,
-  fetchRolByNameRepo
+  fetchRolByNameRepo,
+  updateUserAccountPasswordRepo,
+  fetchAccountByUsernameRepo
 }

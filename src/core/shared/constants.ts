@@ -9,6 +9,7 @@ export default {
 
   CHAR_MAYOR: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
   CHAR_MINOR: 'abcdefghijklmnopqrstuvwxyz123456789',
+  CHAR_SPEC: '@$!*?&',
 
   JWT_SECRET: process.env.JWT_SECRET,
   JWT_SECRET_REFRESH: process.env.JWT_SECRET_REFRESH,

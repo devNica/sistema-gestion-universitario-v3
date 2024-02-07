@@ -1,10 +1,9 @@
-// Input Controller
-// Output Controller
-
-import { type ProfileInfoEntity, type UserAccountEntity } from '@core/models/entities/auth.entity'
-
-export type UserRegistrationIC = Pick<UserAccountEntity, 'username' | 'password' | 'profileId'>
-
-export type UserProfileRegistrationIC = Omit<ProfileInfoEntity, 'id'>
+import { type UserAccountEntity, type ProfileInfoEntity } from '@core/models/entities/auth.entity'
 
 export type UniversitaryApplicantRegistrationIC = Omit<ProfileInfoEntity, 'id'>
+
+export type ResetUserPasswordIC = Pick<UserAccountEntity, 'username'> & {
+  newPassword: string
+}
+
+export type UserLoginIC = Pick<UserAccountEntity, 'password' | 'username'>
