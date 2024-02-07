@@ -20,7 +20,12 @@ export const userAccountRegistrationSchema: Joi.ObjectSchema = Joi.object({
   })
 })
 
-export const userprofileRegistrationSchema: Joi.ObjectSchema = Joi.object({
+export const applicantInformationSchema: Joi.ObjectSchema = Joi.object({
+  personalEmail: Joi.string().email().required().messages({
+    'any.required': 'Correo del postulante es requerido',
+    'string.base': 'Formato de correo incorrecto',
+    'string.email': 'Direccion de correo invalido'
+  }),
   firstname: Joi.string().regex(/^[^\d]+$/).required().messages({
     'any.required': 'Nombre del postulante es requerido',
     'string.base': 'Nombre no puede contener digitos'

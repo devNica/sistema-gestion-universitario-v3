@@ -1,10 +1,10 @@
-import { type UserProfileRegistrationIR, type UserRegistrationIR } from '@auth/models/repositories/repository-input.model'
-import { type ProfilePersonOR } from '@auth/models/repositories/repository-output.model'
+import { type UniversitaryApplicantRegistrationIR } from '@auth/models/repositories/repository-input.model'
+import { type RolOR, type UserAccountOR } from '@auth/models/repositories/repository-output.model'
 
 export interface CreateUserAccountOP {
-  create: (data: UserRegistrationIR) => Promise<void | never>
+  create: (data: UniversitaryApplicantRegistrationIR) => Promise<UserAccountOR | never>
 }
 
-export interface CreateUserProfileOP {
-  createUserProfile: (data: UserProfileRegistrationIR) => Promise<ProfilePersonOR | never>
+export interface FetchRolByNameOP {
+  fetchRol: (rolName: string) => Promise<RolOR | never>
 }

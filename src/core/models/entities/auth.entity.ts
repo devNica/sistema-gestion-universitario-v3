@@ -3,7 +3,7 @@ import { type UUID } from '../generic/custom-types.model'
 export interface RolEntity {
   id: UUID
   rol: string
-  users?: Pick<UserAccountEntity, 'id' | 'email' | 'state'>
+  users?: Pick<UserAccountEntity, 'id' | 'username' | 'state'>
 }
 
 export interface UserHasRoleEntity {
@@ -13,7 +13,7 @@ export interface UserHasRoleEntity {
 
 export interface UserAccountEntity {
   id: UUID
-  email: string
+  username: string
   password: string
   isRoot: boolean
   state: boolean
@@ -32,6 +32,7 @@ export interface ProfileInfoEntity {
   phoneNumber: string
   nationality: string
   address: string
+  personalEmail: string
 }
 
 export interface ProfileHasPictureEntity {

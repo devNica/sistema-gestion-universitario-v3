@@ -1,3 +1,5 @@
-import { type ProfileInfoEntity } from '@core/models/entities/auth.entity'
+import { type RolEntity, type UserAccountEntity } from '@core/models/entities/auth.entity'
 
-export type ProfilePersonOR = Pick<ProfileInfoEntity, 'id' | 'firstname' | 'lastname' | 'address' | 'birthdate' | 'dni' | 'nationality' | 'phoneNumber'>
+export type UserAccountOR = Omit<UserAccountEntity, 'createdAt' | 'updatedAt' | 'profileId' | 'roles'>
+
+export type RolOR = Pick<RolEntity, 'id' | 'rol'>

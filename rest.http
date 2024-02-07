@@ -1,25 +1,14 @@
-### user profile registration  
-POST http://localhost:9870/hw/core/v1/user/profile HTTP/1.1
+### registro de cuentas de aplicantes
+POST http://localhost:9870/hw/core/v1/auth/register/applicant HTTP/1.1
 Content-Type: application/json
 
 {
+    "personalEmail": "lucas.marsell@test.com",
     "firstname": "Lucas Andres",
     "lastname": "Marsell",
     "address": "Managua Distrito I B. Rev",
     "dni": "908-6767EW-89EW",
     "phoneNumber": "+5053728323",
-    "birthdate": "2015-09-16",
+    "birthdate": "2005-09-16",
     "nationality": "Nicaraguense"
 }
-
-
-### user account registration  
-POST http://localhost:9870/hw/core/v1/auth/signup HTTP/1.1
-Content-Type: application/json
-
-{
-    "email": "lukasdev@test.com",
-    "password": "Lamisma123*",
-    "profileId": "69d9b76f-7d4f-445c-83f3-1b9bff98c579"
-}
-

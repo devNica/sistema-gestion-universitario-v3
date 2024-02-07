@@ -1,49 +1,82 @@
-import { type UserRegistrationIR } from '@auth/models/repositories/repository-input.model'
-import { type CreateUserProfileOP, type CreateUserAccountOP } from '@auth/ports/output/auth-repository.output.port'
-import { ProfileInfoModel, UserAccountModel } from '../orm/sequelize/models'
-import { UniqueConstraintError } from 'sequelize'
+import { type UniversitaryApplicantRegistrationIR } from '@auth/models/repositories/repository-input.model'
+import { type FetchRolByNameOP, type CreateUserAccountOP } from '@auth/ports/output/auth-repository.output.port'
+import { type Sequelize, UniqueConstraintError, QueryError, ValidationError } from 'sequelize'
 import RepositoryValidationErrorPresenter from '@core/adapters/primary/presenters/repository-validation-error.presenter'
 import InternalServerErrorPresenter from '@core/adapters/primary/presenters/internal-server-error.presenter'
-import { type UserProfileRegistrationIC } from '@auth/models/controllers/controller-input.model'
-import { type ProfilePersonOR } from '@auth/models/repositories/repository-output.model'
+import { type RolOR, type UserAccountOR } from '@auth/models/repositories/repository-output.model'
+import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
+import { ProfileInfoModel, RolModel, UserAccountModel, UserHasRoleModel } from '../orm/sequelize/models'
+import { type UserAccountEntity } from '@core/models/entities/auth.entity'
 
-class UserAccountRepositoryAdapter implements CreateUserAccountOP, CreateUserProfileOP {
-  async createUserProfile (data: Required<UserProfileRegistrationIC>): Promise<ProfilePersonOR | never> {
-    try {
-      const newProfile = await ProfileInfoModel.create({ ...data })
-      return newProfile
-    } catch (error) {
-      if (error instanceof UniqueConstraintError) {
-        throw new RepositoryValidationErrorPresenter(error.message)
-      } else {
-        throw new InternalServerErrorPresenter('Creacion de perfil de usaurio fallida')
-      }
-    }
-  }
+class UserAccountRepositoryAdapter implements CreateUserAccountOP, FetchRolByNameOP {
+  constructor (
+    private readonly db: Sequelize
+  ) { }
 
-  async create (data: UserRegistrationIR): Promise<void | never> {
+  async create (data: UniversitaryApplicantRegistrationIR): Promise<UserAccountOR | never> {
     try {
-      await UserAccountModel.create({
-        email: data.email,
-        password: data.passwordHashed,
-        profileId: data.profileId
+      console.log(data)
+      let user: UserAccountEntity | null = null
+
+      await this.db.transaction(async (t) => {
+        const profile = await ProfileInfoModel.create({
+          firstname: data.firstname,
+          lastname: data.lastname,
+          dni: data.dni,
+          phoneNumber: data.phoneNumber,
+          address: data.address,
+          birthdate: data.birthdate,
+          nationality: data.nationality,
+          personalEmail: data.personalEmail
+        }, { transaction: t })
+
+        user = await UserAccountModel.create({
+          username: data.username,
+          password: data.passwordHashed,
+          profileId: profile.id,
+          state: true
+        }, { transaction: t })
+
+        await UserHasRoleModel.create({
+          userId: user.id,
+          rolId: data.rolId
+        }, { transaction: t })
       })
+
+      if (user === null) {
+        throw new Error('Creacion de cuenta de usuario fallida')
+      }
+
+      return user
     } catch (error) {
-      if (error instanceof UniqueConstraintError) {
+      if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
         throw new RepositoryValidationErrorPresenter(error.message)
       } else {
         throw new InternalServerErrorPresenter('Creacion de cuenta de usuario fallida')
       }
     }
   }
+
+  async fetchRol (rolName: string): Promise<RolOR | never> {
+    try {
+      const rol = await RolModel.findOne({ where: { rol: rolName } })
+      if (rol === null) throw new Error('Error al consultar roles')
+      return rol
+    } catch (error) {
+      if (error instanceof QueryError) {
+        throw new RepositoryValidationErrorPresenter(error.message)
+      } else {
+        throw new InternalServerErrorPresenter('Error al consultar roles')
+      }
+    }
+  }
 }
 
-const userAccountRepoAdapter = new UserAccountRepositoryAdapter()
-
+const userAccountRepoAdapter = new UserAccountRepositoryAdapter(sequelizeInstance)
 const createUserAccountRepo: CreateUserAccountOP = userAccountRepoAdapter
-const createUserProfileRepo: CreateUserProfileOP = userAccountRepoAdapter
+const fetchRolByNameRepo: FetchRolByNameOP = userAccountRepoAdapter
 
 export {
   createUserAccountRepo,
-  createUserProfileRepo
+  fetchRolByNameRepo
 }

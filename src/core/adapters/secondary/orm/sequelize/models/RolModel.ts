@@ -6,9 +6,9 @@ import { DataTypes, Model, type Optional } from 'sequelize'
 interface RolInputModel extends Optional<RolEntity, 'id' | 'rol'> { }
 
 export default class RolModel extends Model<RolEntity, RolInputModel> implements RolEntity {
-  id: UUID
-  rol: string
-  users?: Pick<UserAccountEntity, 'id' | 'email' | 'state'> | undefined
+  declare id: UUID
+  declare rol: string
+  users?: Pick<UserAccountEntity, 'id' | 'username' | 'state'> | undefined
 }
 
 RolModel.init({

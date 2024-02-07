@@ -7,7 +7,7 @@ interface UserAccountInputModel extends Optional<UserAccountEntity, 'id' | 'crea
 
 export default class UserAccountModel extends Model<UserAccountEntity, UserAccountInputModel> implements UserAccountEntity {
   declare id: UUID
-  declare email: string
+  declare username: string
   declare password: string
   declare isRoot: boolean
   declare state: boolean
@@ -25,7 +25,7 @@ UserAccountModel.init({
     unique: true,
     defaultValue: DataTypes.UUIDV4
   },
-  email: {
+  username: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true
@@ -53,7 +53,7 @@ UserAccountModel.init({
   state: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: true
+    defaultValue: false
   },
   createdAt: {
     type: DataTypes.DATE,
