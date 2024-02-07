@@ -3,7 +3,7 @@ import { type UUID } from '@core/models/generic/custom-types.model'
 import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { DataTypes, Model, type Optional } from 'sequelize'
 
-interface ProfileInfoInputModel extends Optional<ProfileInfoEntity, 'address' | 'firstname' | 'lastname' | 'birthdate' | 'dni' | 'nationality' | 'phoneNumber'> { }
+interface ProfileInfoInputModel extends Optional<ProfileInfoEntity, 'id'> { }
 
 export default class ProfileInfoModel extends Model<ProfileInfoEntity, ProfileInfoInputModel> implements ProfileInfoEntity {
   declare id: UUID

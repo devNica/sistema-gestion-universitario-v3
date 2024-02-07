@@ -3,7 +3,7 @@ import { type UUID } from '@core/models/generic/custom-types.model'
 import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { DataTypes, Model, NOW, type Optional } from 'sequelize'
 
-interface UserAccountInputModel extends Optional<UserAccountEntity, 'id' | 'email' | 'password' | 'profileId' | 'isRoot'> { }
+interface UserAccountInputModel extends Optional<UserAccountEntity, 'id' | 'createdAt' | 'updatedAt' | 'isRoot' | 'state' | 'roles'> { }
 
 export default class UserAccountModel extends Model<UserAccountEntity, UserAccountInputModel> implements UserAccountEntity {
   declare id: UUID
@@ -13,7 +13,7 @@ export default class UserAccountModel extends Model<UserAccountEntity, UserAccou
   declare state: boolean
   declare createdAt: Date
   declare updatedAt: Date
-  profileId: string
+  declare profileId: string
   roles?: Pick<RolEntity, 'id' | 'rol'> | undefined
 }
 

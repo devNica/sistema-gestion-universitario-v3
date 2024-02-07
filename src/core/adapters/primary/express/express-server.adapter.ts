@@ -5,6 +5,9 @@ import { setupProxy } from '@frameworks/express/express-setup-proxy'
 import { setupRoutes } from '@frameworks/express/express-setup-routes'
 import { type Application } from 'express'
 import { type Server } from 'http'
+import authRouter from '@auth/routes/auth.routes'
+import constants from '@core/shared/constants'
+import userRouter from '@auth/routes/user.routes'
 
 export class ExpressHttpServerAdapter {
   private readonly controllers: ControllerModel[] = []
@@ -16,8 +19,8 @@ export class ExpressHttpServerAdapter {
   ) {}
 
   private async addController (): Promise<void> {
-    // this.controllers.push({ path: `${constants.PREFIX}/auth`, controller: authRouter })
-    // this.controllers.push({ path: `${constants.PREFIX}/maintenance`, controller: maintenanceRouter })
+    this.controllers.push({ path: `${constants.PREFIX}/user`, controller: userRouter })
+    this.controllers.push({ path: `${constants.PREFIX}/auth`, controller: authRouter })
   }
 
   public async start (): Promise<void> {

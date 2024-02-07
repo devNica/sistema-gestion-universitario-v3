@@ -21,9 +21,9 @@ async function startServer (): Promise<void> {
     .then(() => { console.log('Database connected success') })
     .catch(error => { console.error(error) })
 
-  db.syncModels(true)
-    .then(() => { console.log('Modelos sincronizados') })
-    .catch(err => { console.error(err) })
+  // db.syncModels(true)
+  //   .then(() => { console.log('Modelos sincronizados') })
+  //   .catch(err => { console.error(err) })
 
   const httpServer = new ExpressHttpServerAdapter(SERVER_PORT, appExpress, server)
   await httpServer.start()
