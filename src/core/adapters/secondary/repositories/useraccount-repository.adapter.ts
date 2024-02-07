@@ -1,7 +1,7 @@
 import { type UserRegistrationIR } from '@auth/models/repositories/repository-input.model'
 import { type CreateUserProfileOP, type CreateUserAccountOP } from '@auth/ports/output/auth-repository.output.port'
 import { ProfileInfoModel, UserAccountModel } from '../orm/sequelize/models'
-import { QueryError } from 'sequelize'
+import { UniqueConstraintError } from 'sequelize'
 import RepositoryValidationErrorPresenter from '@core/adapters/primary/presenters/repository-validation-error.presenter'
 import InternalServerErrorPresenter from '@core/adapters/primary/presenters/internal-server-error.presenter'
 import { type UserProfileRegistrationIC } from '@auth/models/controllers/controller-input.model'
@@ -13,13 +13,10 @@ class UserAccountRepositoryAdapter implements CreateUserAccountOP, CreateUserPro
       const newProfile = await ProfileInfoModel.create({ ...data })
       return newProfile
     } catch (error) {
-      if (error instanceof QueryError) {
-        if (error.message.includes('llave duplicada viola restricción de unicidad')) {
-          throw new RepositoryValidationErrorPresenter('Perfil de usuario duplicado')
-        }
+      if (error instanceof UniqueConstraintError) {
         throw new RepositoryValidationErrorPresenter(error.message)
       } else {
-        throw new InternalServerErrorPresenter('Error desconocido en el repositorio de usuarios')
+        throw new InternalServerErrorPresenter('Creacion de perfil de usaurio fallida')
       }
     }
   }
@@ -32,13 +29,10 @@ class UserAccountRepositoryAdapter implements CreateUserAccountOP, CreateUserPro
         profileId: data.profileId
       })
     } catch (error) {
-      if (error instanceof QueryError) {
-        if (error.message.includes('llave duplicada viola restricción de unicidad')) {
-          throw new RepositoryValidationErrorPresenter('Cuenta de usuario duplicada')
-        }
+      if (error instanceof UniqueConstraintError) {
         throw new RepositoryValidationErrorPresenter(error.message)
       } else {
-        throw new InternalServerErrorPresenter('Error desconocido en el repositorio de usuarios')
+        throw new InternalServerErrorPresenter('Creacion de cuenta de usuario fallida')
       }
     }
   }

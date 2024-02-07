@@ -7,8 +7,8 @@ Content-Type: application/json
     "lastname": "Marsell",
     "address": "Managua Distrito I B. Rev",
     "dni": "908-6767EW-89EW",
-    "phoneNumber": "+505-3728323",
-    "birthdate": "1986-11-06",
+    "phoneNumber": "+5053728323",
+    "birthdate": "2015-09-16",
     "nationality": "Nicaraguense"
 }
 
