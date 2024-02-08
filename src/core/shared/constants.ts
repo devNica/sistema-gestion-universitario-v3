@@ -35,6 +35,10 @@ export default {
   DB_USER_TEST: process.env.DB_USER_TEST,
   DB_PASSWORD_TEST: process.env.DB_PASSWORD_TEST,
   DB_HOST_TEST: process.env.DB_HOST_TEST,
-  DB_DIALECT_TEST: process.env.DB_DIALECT_TEST
+  DB_DIALECT_TEST: process.env.DB_DIALECT_TEST,
+
+  REDIS_HOST: process.env.REDIS_HOST,
+  REDIS_PASSWORD: process.env.REDIS_PASSWORD,
+  REDIS_PORT: process.env.REDIS_PORT
 
 }
