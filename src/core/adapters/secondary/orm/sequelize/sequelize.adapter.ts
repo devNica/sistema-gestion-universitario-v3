@@ -34,14 +34,11 @@ export class SequelizeAdapter implements DatabaseOutputPort {
 
       // ROL MODEL
       RolModel.hasMany(UserHasRoleModel, { foreignKey: 'rol_id' })
+      RolModel.belongsToMany(UserAccountModel, { through: 'user_has_role', foreignKey: 'rol_id', onDelete: 'RESTRICT', onUpdate: 'CASCADE' })
 
       // USER ACCOUNT MODEL
       UserAccountModel.belongsTo(ProfileInfoModel, { foreignKey: 'profile_id' })
-      UserAccountModel.hasMany(UserHasRoleModel, { foreignKey: 'user_id' })
-
-      // USER HAS ROLE MODEL
-      UserHasRoleModel.belongsTo(UserAccountModel, { foreignKey: 'user_id' })
-      UserHasRoleModel.belongsTo(RolModel, { foreignKey: 'rol_id' })
+      UserAccountModel.belongsToMany(RolModel, { through: 'user_has_role', foreignKey: 'user_id', onDelete: 'RESTRICT', onUpdate: 'CASCADE' })
 
       if (alter) {
         await this.sequelize.sync({ alter })

@@ -1,8 +1,12 @@
-import { type FetchUserAccountIR, type ResetUserPasswordIR, type UniversitaryApplicantRegistrationIR } from '@auth/models/repositories/repository-input.model'
+import { type UniversitaryProfessorRegistrationIR, type FetchUserAccountIR, type ResetUserPasswordIR, type UniversitaryApplicantRegistrationIR } from '@auth/models/repositories/repository-input.model'
 import { type UserProfileOR, type RolOR, type UserAccountOR } from '@auth/models/repositories/repository-output.model'
 
-export interface CreateUserAccountOP {
-  create: (data: UniversitaryApplicantRegistrationIR) => Promise<UserAccountOR | never>
+export interface CreateGuestUserOP {
+  createGuestUser: (data: UniversitaryApplicantRegistrationIR) => Promise<UserAccountOR | never>
+}
+
+export interface CreateProfessorUserOP {
+  createProfessorUser: (data: UniversitaryProfessorRegistrationIR) => Promise<UserAccountOR | never>
 }
 
 export interface FetchRolByNameOP {

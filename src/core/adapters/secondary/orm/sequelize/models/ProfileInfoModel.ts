@@ -3,7 +3,7 @@ import { type UUID } from '@core/models/generic/custom-types.model'
 import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { DataTypes, Model, type Optional } from 'sequelize'
 
-interface ProfileInfoInputModel extends Optional<ProfileInfoEntity, 'id'> { }
+interface ProfileInfoInputModel extends Optional<ProfileInfoEntity, 'id' | 'address' | 'dni' | 'phoneNumber' | 'nationality' | 'birthdate'> { }
 
 export default class ProfileInfoModel extends Model<ProfileInfoEntity, ProfileInfoInputModel> implements ProfileInfoEntity {
   declare id: UUID
@@ -35,24 +35,24 @@ ProfileInfoModel.init({
   },
   dni: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: true,
     unique: true
   },
   phoneNumber: {
     type: DataTypes.STRING(20),
-    allowNull: false
+    allowNull: true
   },
   birthdate: {
     type: DataTypes.DATEONLY,
-    allowNull: false
+    allowNull: true
   },
   nationality: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   address: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   personalEmail: {
     type: DataTypes.STRING,

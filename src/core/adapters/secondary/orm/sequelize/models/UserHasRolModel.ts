@@ -4,8 +4,8 @@ import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { DataTypes, Model } from 'sequelize'
 
 export default class UserHasRoleModel extends Model<UserHasRoleEntity> implements UserHasRoleEntity {
-  rolId: UUID
-  userId: UUID
+  declare rolId: UUID
+  declare userId: UUID
 }
 
 UserHasRoleModel.init({

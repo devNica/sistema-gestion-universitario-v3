@@ -1,5 +1,5 @@
-import { type FetchUserAccountIR, type ResetUserPasswordIR, type UniversitaryApplicantRegistrationIR } from '@auth/models/repositories/repository-input.model'
-import { type FetchRolByNameOP, type CreateUserAccountOP, type UpdateUserAccountPasswordOP, type FetchAccountByUsernameOP } from '@auth/ports/output/auth-repository.output.port'
+import { type UniversitaryProfessorRegistrationIR, type FetchUserAccountIR, type ResetUserPasswordIR, type UniversitaryApplicantRegistrationIR } from '@auth/models/repositories/repository-input.model'
+import { type FetchRolByNameOP, type UpdateUserAccountPasswordOP, type FetchAccountByUsernameOP, type CreateGuestUserOP, type CreateProfessorUserOP } from '@auth/ports/output/auth-repository.output.port'
 import { type Sequelize, UniqueConstraintError, QueryError, ValidationError, QueryTypes } from 'sequelize'
 import RepositoryValidationErrorPresenter from '@core/adapters/primary/presenters/repository-validation-error.presenter'
 import InternalServerErrorPresenter from '@core/adapters/primary/presenters/internal-server-error.presenter'
@@ -9,14 +9,52 @@ import { ProfileInfoModel, RolModel, UserAccountModel, UserHasRoleModel } from '
 import { type UserAccountEntity } from '@core/models/entities/auth.entity'
 import { fetchAccountByUsernameQuery } from './queries/auth.query'
 
-class UserAccountRepositoryAdapter implements CreateUserAccountOP, FetchRolByNameOP, UpdateUserAccountPasswordOP, FetchAccountByUsernameOP {
+class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessorUserOP, FetchRolByNameOP,
+  UpdateUserAccountPasswordOP, FetchAccountByUsernameOP {
   constructor (
     private readonly db: Sequelize
   ) { }
 
-  async create (data: UniversitaryApplicantRegistrationIR): Promise<UserAccountOR | never> {
+  async createProfessorUser (data: UniversitaryProfessorRegistrationIR): Promise<UserAccountOR | never> {
     try {
-      console.log(data)
+      let user: UserAccountEntity | null = null
+
+      await this.db.transaction(async (t) => {
+        const profile = await ProfileInfoModel.create({
+          firstname: data.firstname,
+          lastname: data.lastname,
+          personalEmail: data.personalEmail
+        }, { transaction: t })
+
+        user = await UserAccountModel.create({
+          username: data.username,
+          password: data.passwordHashed,
+          profileId: profile.id,
+          state: true
+        }, { transaction: t })
+
+        await UserHasRoleModel.create({
+          userId: user.id,
+          rolId: data.rolId
+        }, { transaction: t })
+      })
+
+      if (user === null) {
+        throw new Error('Creacion de cuenta de usuario fallida')
+      }
+
+      return user
+    } catch (error) {
+      if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
+        throw new RepositoryValidationErrorPresenter(error.message)
+      } else {
+        throw new InternalServerErrorPresenter('Creacion de cuenta de usuario fallida')
+      }
+    }
+  }
+
+  async createGuestUser (data: UniversitaryApplicantRegistrationIR): Promise<UserAccountOR | never> {
+    try {
       let user: UserAccountEntity | null = null
 
       await this.db.transaction(async (t) => {
@@ -113,13 +151,15 @@ class UserAccountRepositoryAdapter implements CreateUserAccountOP, FetchRolByNam
 }
 
 const userAccountRepoAdapter = new UserAccountRepositoryAdapter(sequelizeInstance)
-const createUserAccountRepo: CreateUserAccountOP = userAccountRepoAdapter
+const createGuestUserRepo: CreateGuestUserOP = userAccountRepoAdapter
+const createProfessorUserRepo: CreateProfessorUserOP = userAccountRepoAdapter
 const fetchRolByNameRepo: FetchRolByNameOP = userAccountRepoAdapter
 const updateUserAccountPasswordRepo: UpdateUserAccountPasswordOP = userAccountRepoAdapter
 const fetchAccountByUsernameRepo: FetchAccountByUsernameOP = userAccountRepoAdapter
 
 export {
-  createUserAccountRepo,
+  createGuestUserRepo,
+  createProfessorUserRepo,
   fetchRolByNameRepo,
   updateUserAccountPasswordRepo,
   fetchAccountByUsernameRepo

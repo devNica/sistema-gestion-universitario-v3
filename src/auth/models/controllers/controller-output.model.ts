@@ -6,3 +6,5 @@ export type UserLoginOC = Pick<UserProfileOR, 'firstname' | 'lastname' > & {
   nameAcronyms: string
   token: string
 }
+
+export type UniversityProfessorRegistrationOC = Pick<UserProfileOR, 'username'>

@@ -4,8 +4,8 @@ import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { DataTypes, Model } from 'sequelize'
 
 export default class ProfileHasPictureModel extends Model<ProfileHasPictureEntity> implements ProfileHasPictureEntity {
-  profileId: UUID
-  fileId: UUID
+  declare profileId: UUID
+  declare fileId: UUID
 }
 
 ProfileHasPictureModel.init({

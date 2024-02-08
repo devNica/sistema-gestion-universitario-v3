@@ -70,3 +70,26 @@ export const applicantInformationSchema: Joi.ObjectSchema = Joi.object({
     'string.pattern.base': 'Formato del numero telefonico es incorrecto'
   })
 })
+
+export const profesorInformationSchema: Joi.ObjectSchema = Joi.object({
+  personalEmail: Joi.string().email().required().messages({
+    'any.required': 'Correo del postulante es requerido',
+    'string.base': 'Formato de correo incorrecto',
+    'string.email': 'Direccion de correo invalido'
+  }),
+  firstname: Joi.string().regex(/^[^\d]+$/).required().messages({
+    'any.required': 'Nombre del postulante es requerido',
+    'string.base': 'Nombre no puede contener digitos'
+  }),
+  lastname: Joi.string().regex(/^[^\d]+$/).required().messages({
+    'any.required': 'Apellido del postulante es requerido',
+    'string.pattern.base': 'Apellido no puede contener digitos'
+  }),
+  password: Joi.string().min(8).max(15).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!*?&])[A-Za-z\d@$!*?&]{8,15}$/).required().messages({
+    'any.required': 'Password es requerido',
+    'string.base': 'Formato del password es incorrecto',
+    'string.pattern.base': 'Formato del password es requerido',
+    'string.min': 'El password debe tener al menos 8 caracteres',
+    'string.max': 'El password no debe exceder los 15 caracteres'
+  })
+})

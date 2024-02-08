@@ -1,6 +1,6 @@
 import { type UniversitaryApplicantRegistrationIC } from '@auth/models/controllers/controller-input.model'
 import { type UniversitaryApplicantRegistrationOC } from '@auth/models/controllers/controller-output.model'
-import { type CreateUserAccountOP, type FetchRolByNameOP } from '@auth/ports/output/auth-repository.output.port'
+import { type CreateGuestUserOP, type FetchRolByNameOP } from '@auth/ports/output/auth-repository.output.port'
 import { type PasswordEncryptorOutputPort } from '@core/ports/output/security/password-encryptor-output.port'
 import constants from '@core/shared/constants'
 import { generateRandomSeries } from '@core/shared/utils/generate-random-serie'
@@ -12,7 +12,7 @@ export interface UniversitaryApplicantRegistrationSrvI {
 
 export default class UniversitaryApplicantRegistrarionService implements UniversitaryApplicantRegistrationSrvI {
   constructor (
-    private readonly authPort: CreateUserAccountOP,
+    private readonly authPort: CreateGuestUserOP,
     private readonly rolPort: FetchRolByNameOP,
     private readonly encryptor: PasswordEncryptorOutputPort
   ) {}
@@ -27,7 +27,7 @@ export default class UniversitaryApplicantRegistrarionService implements Univers
 
     const rol = await this.rolPort.fetchRol('invitado')
 
-    await this.authPort.create({
+    await this.authPort.createGuestUser({
       firstname: request.firstname,
       lastname: request.lastname,
       dni: request.dni,

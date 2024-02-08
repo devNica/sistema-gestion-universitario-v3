@@ -7,3 +7,6 @@ export type ResetUserPasswordIC = Pick<UserAccountEntity, 'username'> & {
 }
 
 export type UserLoginIC = Pick<UserAccountEntity, 'password' | 'username'>
+
+export type UniversityProfessorRegistrationIC = Pick<ProfileInfoEntity, 'firstname' | 'lastname' | 'personalEmail'> &
+Pick<UserAccountEntity, 'password'>
