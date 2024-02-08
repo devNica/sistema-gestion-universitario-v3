@@ -1,5 +1,5 @@
-import { type UniversitaryProfessorRegistrationIR, type FetchUserAccountIR, type ResetUserPasswordIR, type UniversitaryApplicantRegistrationIR } from '@auth/models/repositories/repository-input.model'
-import { type FetchRolByNameOP, type UpdateUserAccountPasswordOP, type FetchAccountByUsernameOP, type CreateGuestUserOP, type CreateProfessorUserOP } from '@auth/ports/output/auth-repository.output.port'
+import { type UniversitaryProfessorRegistrationIR, type FetchUserAccountIR, type ResetUserPasswordIR, type UniversitaryApplicantRegistrationIR, type PromoteGuestUserAccountToStudentIR, type VerifyUserRoleIR } from '@auth/models/repositories/repository-input.model'
+import { type FetchRolByNameOP, type UpdateUserAccountPasswordOP, type FetchAccountByUsernameOP, type CreateGuestUserOP, type CreateProfessorUserOP, type PromoteUserAccountOP, type VerifyUserRoleOP } from '@auth/ports/output/auth-repository.output.port'
 import { type Sequelize, UniqueConstraintError, QueryError, ValidationError, QueryTypes } from 'sequelize'
 import RepositoryValidationErrorPresenter from '@core/adapters/primary/presenters/repository-validation-error.presenter'
 import InternalServerErrorPresenter from '@core/adapters/primary/presenters/internal-server-error.presenter'
@@ -7,10 +7,10 @@ import { type UserProfileOR, type RolOR, type UserAccountOR } from '@auth/models
 import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { ProfileInfoModel, RolModel, UserAccountModel, UserHasRoleModel } from '../orm/sequelize/models'
 import { type UserAccountEntity } from '@core/models/entities/auth.entity'
-import { fetchAccountByUsernameQuery } from './queries/auth.query'
+import { fetchAccountByUsernameQuery, verifyUserRolQuery } from './queries/auth.query'
 
 class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessorUserOP, FetchRolByNameOP,
-  UpdateUserAccountPasswordOP, FetchAccountByUsernameOP {
+  UpdateUserAccountPasswordOP, FetchAccountByUsernameOP, PromoteUserAccountOP, VerifyUserRoleOP {
   constructor (
     private readonly db: Sequelize
   ) { }
@@ -148,6 +148,51 @@ class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessor
       }
     }
   }
+
+  async verifyUserRole (data: VerifyUserRoleIR): Promise<boolean | never> {
+    try {
+      const result: Array<{ verify: string }> = await this.db.query(verifyUserRolQuery(), {
+        replacements: {
+          userId: data.id,
+          rol: data.rol
+        },
+        type: QueryTypes.SELECT
+      })
+
+      if (result[0].verify === 'true') return true
+      else return false
+    } catch (error) {
+      if (error instanceof QueryError) {
+        throw new RepositoryValidationErrorPresenter(error.message)
+      } else if (error instanceof RepositoryValidationErrorPresenter) {
+        throw new InternalServerErrorPresenter(error.message)
+      } else {
+        throw new InternalServerErrorPresenter('Rol no pudo ser verificado')
+      }
+    }
+  }
+
+  async promoteUser (data: PromoteGuestUserAccountToStudentIR): Promise<void> {
+    try {
+      const userRol = await UserHasRoleModel.findOne({ where: { userId: data.id } })
+      if (userRol === null) throw new RepositoryValidationErrorPresenter('Usuario no encontrado')
+
+      await userRol.destroy()
+
+      await UserHasRoleModel.create({
+        userId: data.id,
+        rolId: data.rolId
+      })
+    } catch (error) {
+      if (error instanceof QueryError) {
+        throw new RepositoryValidationErrorPresenter(error.message)
+      } else if (error instanceof RepositoryValidationErrorPresenter) {
+        throw new InternalServerErrorPresenter(error.message)
+      } else {
+        throw new InternalServerErrorPresenter('Contraseña no pudo ser actualizada')
+      }
+    }
+  }
 }
 
 const userAccountRepoAdapter = new UserAccountRepositoryAdapter(sequelizeInstance)
@@ -156,11 +201,15 @@ const createProfessorUserRepo: CreateProfessorUserOP = userAccountRepoAdapter
 const fetchRolByNameRepo: FetchRolByNameOP = userAccountRepoAdapter
 const updateUserAccountPasswordRepo: UpdateUserAccountPasswordOP = userAccountRepoAdapter
 const fetchAccountByUsernameRepo: FetchAccountByUsernameOP = userAccountRepoAdapter
+const verifyUserRoleRepo: VerifyUserRoleOP = userAccountRepoAdapter
+const promoteUserAccountRepo: PromoteUserAccountOP = userAccountRepoAdapter
 
 export {
   createGuestUserRepo,
   createProfessorUserRepo,
   fetchRolByNameRepo,
   updateUserAccountPasswordRepo,
-  fetchAccountByUsernameRepo
+  fetchAccountByUsernameRepo,
+  verifyUserRoleRepo,
+  promoteUserAccountRepo
 }

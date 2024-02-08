@@ -16,3 +16,16 @@ export const fetchAccountByUsernameQuery = (): string => `
     INNER JOIN develop.rol as rol on rol.id = uhr.rol_id
     WHERE uac.username = :username
 `
+
+export const verifyUserRolQuery = (): string => `
+    SELECT 
+
+        CASE
+            WHEN COUNT(*) = 0 then 'false'
+            else 'true'
+        END AS verify
+
+    FROM develop.user_has_role uhr 
+    INNER JOIN develop.rol r on r.id = uhr.rol_id
+    WHERE r.rol = :rol and uhr.user_id = :userId
+`

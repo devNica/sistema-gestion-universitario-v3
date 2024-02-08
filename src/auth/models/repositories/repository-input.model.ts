@@ -1,5 +1,6 @@
 import { type UUID } from '@core/models/generic/custom-types.model'
-import { type UserLoginIC, type ResetUserPasswordIC, type UniversitaryApplicantRegistrationIC, type UniversityProfessorRegistrationIC } from '../controllers/controller-input.model'
+import { type UserLoginIC, type ResetUserPasswordIC, type UniversitaryApplicantRegistrationIC, type UniversityProfessorRegistrationIC, type UpgradeGuestUserAccountToStudentIC } from '../controllers/controller-input.model'
+import { type RolEntity, type UserAccountEntity } from '@core/models/entities/auth.entity'
 
 export type UniversitaryApplicantRegistrationIR = Required<UniversitaryApplicantRegistrationIC> & {
   username: string
@@ -18,3 +19,9 @@ export type UniversitaryProfessorRegistrationIR = Omit<UniversityProfessorRegist
   username: string
   rolId: UUID
 }
+
+export type PromoteGuestUserAccountToStudentIR = Required<UpgradeGuestUserAccountToStudentIC> & {
+  rolId: UUID
+}
+
+export type VerifyUserRoleIR = Pick<RolEntity, 'rol'> & Pick<UserAccountEntity, 'id'>

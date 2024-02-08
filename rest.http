@@ -44,3 +44,8 @@ Content-Type: application/json
     "username": "akrauss-qte",
     "password": "4W8guvF94P*"
 }
+
+
+### realizar upgrade de cuenta de usaurio invitado a estudiante
+PATCH  http://localhost:9870/hw/core/v1/auth/guest/4ff2c28f-9e4f-4155-9167-19564c187b0b/upgrade-to-student HTTP/1.1
+Content-Type: application/json

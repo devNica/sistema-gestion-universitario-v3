@@ -2,6 +2,7 @@
 import { resetUserAccountPasswordFactory } from '@auth/factories/reset-useraccount-password.factory'
 import { universitaryApplicantRegistrationFactory } from '@auth/factories/universitary-applicant-registration.factory'
 import { universityProfessorRegistrationFactory } from '@auth/factories/university-professor-registration.factory'
+import { upgradeGuestUserToStudentFactory } from '@auth/factories/upgrade-guest-user-to-student.factory'
 import { userLoginFactory } from '@auth/factories/user-login.factory'
 import { applicantInformationSchema, profesorInformationSchema, resetUserAccountPasswordSchema, userLoginSchema } from '@auth/schemas/useraccount.schema'
 import { expressMiddlewareAdapter } from '@core/adapters/primary/express/express-middleware.adapter'
@@ -18,6 +19,9 @@ authRouter.post('/login',
 authRouter.post('/register/applicant',
   expressMiddlewareAdapter(validatorSchemaFactory(applicantInformationSchema)),
   expressRouteAdapter(universitaryApplicantRegistrationFactory))
+
+authRouter.patch('/guest/:userId/upgrade-to-student',
+  expressRouteAdapter(upgradeGuestUserToStudentFactory))
 
 authRouter.post('/register/professor',
   expressMiddlewareAdapter(validatorSchemaFactory(profesorInformationSchema)),
