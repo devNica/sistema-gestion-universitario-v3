@@ -2,5 +2,6 @@ import { type SignedToken, type TokenPayloadModel } from '@core/models/token/tok
 
 export interface JWTOutputPort {
   signAccessToken: (payload: TokenPayloadModel) => SignedToken
+  signRefreshToken: (payload: TokenPayloadModel) => SignedToken
   verify: (jwtToken: string, isAccessToken?: boolean) => string
 }

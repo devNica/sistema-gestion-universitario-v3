@@ -1,4 +1,5 @@
 import { type UserAccountEntity } from '../entities/auth.entity'
+import { type UUID } from '../generic/custom-types.model'
 
 export interface TokenModel {
   userId: string
@@ -16,3 +17,9 @@ export interface SignedToken {
 }
 
 export type TokenResponseModel = Pick<TokenModel, 'userId' | 'expiresIn'>
+
+export interface StoreTokenModel {
+  token: string
+  userId: UUID
+  createdAt: number
+}

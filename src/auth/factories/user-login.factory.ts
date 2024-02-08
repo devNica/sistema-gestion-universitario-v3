@@ -3,7 +3,9 @@ import { type UserLoginOC } from '@auth/models/controllers/controller-output.mod
 import UserLoginService from '@auth/services/user-login.service'
 import SuccessFulRequestPresenter from '@core/adapters/primary/presenters/successful-request.presenter'
 import { fetchAccountByUsernameRepo } from '@core/adapters/secondary/repositories/useraccount-repository.adapter'
+import { type StoreTokenModel } from '@core/models/token/token.model'
 import { type ControllerInputPort } from '@core/ports/input/controller-input.port'
+import CacheService from '@core/services/cache/cache.service'
 import { passwordEncryptorService } from '@core/services/encrypters/password-encryptor.service'
 import { jwtTokenService } from '@core/services/token/jsonwebtoken.service'
 
@@ -11,7 +13,8 @@ function factory (): ControllerInputPort {
   const service = new UserLoginService(
     fetchAccountByUsernameRepo,
     passwordEncryptorService,
-    jwtTokenService
+    jwtTokenService,
+    new CacheService<StoreTokenModel>()
   )
 
   const presenter = new SuccessFulRequestPresenter<UserLoginOC>()

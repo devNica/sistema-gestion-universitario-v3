@@ -1,4 +1,4 @@
-export interface CacheOutputPort {
-  getStoreByName: <T>(store: string) => Promise<T[]>
-  updateStoreByName: <T>(store: string, payload: T[]) => Promise<boolean>
+export interface CacheOutputPort<T> {
+  getStoreByName: (store: string) => Promise<T[]>
+  updateStoreByName: (store: string, payload: T[]) => Promise<boolean>
 }
