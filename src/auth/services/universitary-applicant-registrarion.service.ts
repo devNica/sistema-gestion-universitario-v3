@@ -3,6 +3,7 @@ import { type UniversitaryApplicantRegistrationOC } from '@auth/models/controlle
 import { type CreateGuestUserOP, type FetchRolByNameOP } from '@auth/ports/output/auth-repository.output.port'
 import { type PasswordEncryptorOutputPort } from '@core/ports/output/security/password-encryptor-output.port'
 import constants from '@core/shared/constants'
+import { getInitialPasswordExpirationTime } from '@core/shared/utils/create-future-date'
 import { generateRandomSeries } from '@core/shared/utils/generate-random-serie'
 import { generateUsername, sanitizeInputStrings } from '@core/shared/utils/generate-username'
 
@@ -18,7 +19,8 @@ export default class UniversitaryApplicantRegistrarionService implements Univers
   ) {}
 
   async register (request: UniversitaryApplicantRegistrationIC): Promise<UniversitaryApplicantRegistrationOC> {
-    const password = generateRandomSeries(10, constants.CHAR_MAYOR) + generateRandomSeries(1, constants.CHAR_SPEC)
+    let password = generateRandomSeries(10, constants.CHAR_MAYOR) + generateRandomSeries(1, constants.CHAR_SPEC)
+    password = password.replace(/^\w/, c => c.toUpperCase())
 
     const santizeFirstname = sanitizeInputStrings(request.firstname)
     const sanitizeLastname = sanitizeInputStrings(request.lastname)
@@ -26,6 +28,8 @@ export default class UniversitaryApplicantRegistrarionService implements Univers
     const username = generateUsername(santizeFirstname, sanitizeLastname) + generateRandomSeries(3, constants.CHAR_MINOR)
 
     const rol = await this.rolPort.fetchRol('invitado')
+
+    console.log('fecha de expiracion: ', new Date(getInitialPasswordExpirationTime()))
 
     await this.authPort.createGuestUser({
       firstname: request.firstname,
@@ -38,7 +42,8 @@ export default class UniversitaryApplicantRegistrarionService implements Univers
       nationality: request.nationality,
       passwordHashed: await this.encryptor.passwordEncrypt(password),
       username,
-      rolId: rol.id
+      rolId: rol.id,
+      expiresIn: getInitialPasswordExpirationTime()
     })
 
     return {

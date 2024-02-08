@@ -30,6 +30,7 @@ class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessor
           username: data.username,
           password: data.passwordHashed,
           profileId: profile.id,
+          expiresIn: data.expiresIn,
           state: true
         }, { transaction: t })
 
@@ -72,6 +73,7 @@ class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessor
         user = await UserAccountModel.create({
           username: data.username,
           password: data.passwordHashed,
+          expiresIn: data.expiresIn,
           profileId: profile.id,
           state: true
         }, { transaction: t })
@@ -88,6 +90,7 @@ class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessor
 
       return user
     } catch (error) {
+      console.log(error)
       if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
         throw new RepositoryValidationErrorPresenter(error.message)
       } else {
@@ -115,6 +118,7 @@ class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessor
       const user = await UserAccountModel.findOne({ where: { username: data.username } })
       if (user === null) throw new RepositoryValidationErrorPresenter('Usuario no encontrado')
       user.password = data.passwordHashed
+      user.expiresIn = data.expiresIn
       await user.save()
     } catch (error) {
       if (error instanceof QueryError) {
@@ -144,7 +148,7 @@ class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessor
       } else if (error instanceof RepositoryValidationErrorPresenter) {
         throw new InternalServerErrorPresenter(error.message)
       } else {
-        throw new InternalServerErrorPresenter('Contraseña no pudo ser actualizada')
+        throw new InternalServerErrorPresenter('No se pudo consultar la cuenta de usuario')
       }
     }
   }

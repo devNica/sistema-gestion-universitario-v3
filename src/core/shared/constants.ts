@@ -39,6 +39,9 @@ export default {
 
   REDIS_HOST: process.env.REDIS_HOST,
   REDIS_PASSWORD: process.env.REDIS_PASSWORD,
-  REDIS_PORT: process.env.REDIS_PORT
+  REDIS_PORT: process.env.REDIS_PORT,
+
+  INITIAL_PASSWORD_EXPIRATION_TIME: 5 * 60 * 1000, // 5 min
+  PASSWORD_EXPIRATION_TIME: 90 * 24 * 60 * 60 * 1000
 
 }

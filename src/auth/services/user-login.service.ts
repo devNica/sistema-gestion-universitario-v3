@@ -7,6 +7,7 @@ import { type StoreTokenModel } from '@core/models/token/token.model'
 import { type JWTOutputPort } from '@core/ports/output/security/jwt-output.port'
 import { type PasswordEncryptorOutputPort } from '@core/ports/output/security/password-encryptor-output.port'
 import { type CacheOutputPort } from '@core/ports/output/service/cache-output.port'
+import { checkExpirationDate } from '@core/shared/utils/create-future-date'
 
 export interface UserLoginSrvI {
   login: (request: UserLoginIC) => Promise<UserLoginOC>
@@ -43,6 +44,10 @@ export default class UserLoginService implements UserLoginSrvI {
 
     if (!verifyPassword) {
       throw new ServiceValidationErrorPresenter('Crendenciales Incorrectas')
+    }
+
+    if (!checkExpirationDate(userfound.expiresIn)) {
+      throw new ServiceValidationErrorPresenter('Contraseña Expirada', 'temporaryRedirect')
     }
 
     const sessionToken = this.tokenService.signAccessToken({ id: userfound.id, rol: userfound.rol })

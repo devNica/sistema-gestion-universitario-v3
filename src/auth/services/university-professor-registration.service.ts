@@ -3,6 +3,7 @@ import { type UniversityProfessorRegistrationOC } from '@auth/models/controllers
 import { type CreateProfessorUserOP, type FetchRolByNameOP } from '@auth/ports/output/auth-repository.output.port'
 import { type PasswordEncryptorOutputPort } from '@core/ports/output/security/password-encryptor-output.port'
 import constants from '@core/shared/constants'
+import { getInitialPasswordExpirationTime } from '@core/shared/utils/create-future-date'
 import { generateRandomSeries } from '@core/shared/utils/generate-random-serie'
 import { generateUsername, sanitizeInputStrings } from '@core/shared/utils/generate-username'
 
@@ -31,7 +32,8 @@ export default class UniversityProfessorRegistrationService implements Universit
       personalEmail: request.personalEmail,
       passwordHashed: await this.encryptor.passwordEncrypt(request.password),
       username,
-      rolId: rol.id
+      rolId: rol.id,
+      expiresIn: getInitialPasswordExpirationTime()
     })
 
     return {

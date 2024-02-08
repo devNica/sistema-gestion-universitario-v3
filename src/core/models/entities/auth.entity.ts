@@ -17,6 +17,7 @@ export interface UserAccountEntity {
   password: string
   isRoot: boolean
   state: boolean
+  expiresIn: number
   createdAt: Date
   updatedAt: Date
   profileId: string

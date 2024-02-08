@@ -5,6 +5,7 @@ export const fetchAccountByUsernameQuery = (): string => `
         uac.username,
         uac.password,
         uac.state,
+        uac.expires_in as "expiresIn",
         pif.firstname,
         pif.lastname,
         pif.phone_number,

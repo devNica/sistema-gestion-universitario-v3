@@ -7,11 +7,11 @@ export const userLoginSchema: Joi.ObjectSchema = Joi.object({
     'string.base': 'Formato del nombre de usuario incorrecto'
   }),
   password: Joi.string().min(8).max(15).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!*?&])[A-Za-z\d@$!*?&]{8,15}$/).required().messages({
-    'any.required': 'Password es requerido',
-    'string.base': 'Formato del password es incorrecto',
-    'string.pattern.base': 'Formato del password es requerido',
-    'string.min': 'El password debe tener al menos 8 caracteres',
-    'string.max': 'El password no debe exceder los 15 caracteres'
+    'any.required': 'Contraseña es requerida',
+    'string.base': 'Formato de contraseña incorrecto',
+    'string.pattern.base': 'Patron de seguridad de contraseña invalido',
+    'string.min': 'La contraseña debe tener al menos 8 caracteres',
+    'string.max': 'La contraseña no debe exceder los 15 caracteres'
   })
 })
 
@@ -21,11 +21,15 @@ export const resetUserAccountPasswordSchema: Joi.ObjectSchema = Joi.object({
     'string.base': 'Formato del nombre de usuario incorrecto'
   }),
   newPassword: Joi.string().min(8).max(15).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!*?&])[A-Za-z\d@$!*?&]{8,15}$/).required().messages({
-    'any.required': 'Password es requerido',
-    'string.base': 'Formato del password es requerido',
-    'string.pattern.base': 'Formato del password es requerido',
-    'string.min': 'El password debe tener al menos 8 caracteres',
-    'string.max': 'El password no debe exceder los 15 caracteres'
+    'any.required': 'La nueva contraseña es requerida',
+    'string.base': 'El formato de la nueva contraseña es incorrecto',
+    'string.pattern.base': 'Patron de seguridad de nueva contraseña invalido',
+    'string.min': 'La nueva contraseña debe tener al menos 8 caracteres',
+    'string.max': 'La nueva contraseña no debe exceder los 15 caracteres'
+  }),
+  prevPassword: Joi.string().optional().messages({
+    'any.required': 'La contraseña anterior es requerida',
+    'string.base': 'Formato de contraseña anterior incorrecto'
   })
   // profileId: Joi.string().guid({ version: 'uuidv4' }).required().messages({
   //   'any.required': 'ID de asociacion al perfil es requerido',
@@ -86,10 +90,10 @@ export const profesorInformationSchema: Joi.ObjectSchema = Joi.object({
     'string.pattern.base': 'Apellido no puede contener digitos'
   }),
   password: Joi.string().min(8).max(15).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!*?&])[A-Za-z\d@$!*?&]{8,15}$/).required().messages({
-    'any.required': 'Password es requerido',
-    'string.base': 'Formato del password es incorrecto',
-    'string.pattern.base': 'Formato del password es requerido',
-    'string.min': 'El password debe tener al menos 8 caracteres',
-    'string.max': 'El password no debe exceder los 15 caracteres'
+    'any.required': 'Contraseña es requerida',
+    'string.base': 'Formato de contraseña incorrecto',
+    'string.pattern.base': 'Patron de seguridad de contraseña invalido',
+    'string.min': 'La contraseña debe tener al menos 8 caracteres',
+    'string.max': 'La contraseña no debe exceder los 15 caracteres'
   })
 })

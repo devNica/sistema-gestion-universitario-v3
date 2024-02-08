@@ -3,7 +3,7 @@ import { type UUID } from '@core/models/generic/custom-types.model'
 import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { DataTypes, Model, NOW, type Optional } from 'sequelize'
 
-interface UserAccountInputModel extends Optional<UserAccountEntity, 'id' | 'createdAt' | 'updatedAt' | 'isRoot' | 'state' | 'roles'> { }
+interface UserAccountInputModel extends Optional<UserAccountEntity, 'id' | 'expiresIn' | 'createdAt' | 'updatedAt' | 'isRoot' | 'state' | 'roles'> { }
 
 export default class UserAccountModel extends Model<UserAccountEntity, UserAccountInputModel> implements UserAccountEntity {
   declare id: UUID
@@ -11,6 +11,7 @@ export default class UserAccountModel extends Model<UserAccountEntity, UserAccou
   declare password: string
   declare isRoot: boolean
   declare state: boolean
+  declare expiresIn: number
   declare createdAt: Date
   declare updatedAt: Date
   declare profileId: string
@@ -54,6 +55,10 @@ UserAccountModel.init({
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false
+  },
+  expiresIn: {
+    type: DataTypes.BIGINT,
+    allowNull: false
   },
   createdAt: {
     type: DataTypes.DATE,

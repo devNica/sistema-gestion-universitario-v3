@@ -3,6 +3,8 @@ import { type UserAccountEntity, type ProfileInfoEntity } from '@core/models/ent
 export type UniversitaryApplicantRegistrationIC = Omit<ProfileInfoEntity, 'id'>
 
 export type ResetUserPasswordIC = Pick<UserAccountEntity, 'username'> & {
+  rol?: string
+  prevPassword?: string
   newPassword: string
 }
 
@@ -12,3 +14,7 @@ export type UniversityProfessorRegistrationIC = Pick<ProfileInfoEntity, 'firstna
 Pick<UserAccountEntity, 'password'>
 
 export type UpgradeGuestUserAccountToStudentIC = Pick<UserAccountEntity, 'id'>
+
+export type ResetPasswordIC = Pick<UserAccountEntity, 'username' | 'password'> & {
+  newPassword: string
+}

@@ -6,10 +6,12 @@ export type UniversitaryApplicantRegistrationIR = Required<UniversitaryApplicant
   username: string
   passwordHashed: string
   rolId: UUID
+  expiresIn: number
 }
 
 export type ResetUserPasswordIR = Omit<ResetUserPasswordIC, 'newPassword'> & {
   passwordHashed: string
+  expiresIn: number
 }
 
 export type FetchUserAccountIR = Pick<UserLoginIC, 'username'>
@@ -18,6 +20,7 @@ export type UniversitaryProfessorRegistrationIR = Omit<UniversityProfessorRegist
   passwordHashed: string
   username: string
   rolId: UUID
+  expiresIn: number
 }
 
 export type PromoteGuestUserAccountToStudentIR = Required<UpgradeGuestUserAccountToStudentIC> & {
