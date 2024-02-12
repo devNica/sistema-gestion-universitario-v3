@@ -1,7 +1,7 @@
 import ResetUserAccountPasswordController from '@auth/controllers/reset-useraccount-password.controller'
 import ResetUserAccountPasswordService from '@auth/services/reset-useraccount-password.service'
 import SuccessFulUpdatedPresenter from '@core/adapters/primary/presenters/successful-update.presenter'
-import { fetchAccountByUsernameRepo, updateUserAccountPasswordRepo } from '@core/adapters/secondary/repositories/useraccount-repository.adapter'
+import { fetchUserAccountByParamsRepo, updateUserAccountPasswordRepo } from '@core/adapters/secondary/repositories/useraccount-repository.adapter'
 import { type EmptyResponseModel } from '@core/models/generic/response.model'
 import { type ControllerInputPort } from '@core/ports/input/controller-input.port'
 import { passwordEncryptorService } from '@core/services/encrypters/password-encryptor.service'
@@ -9,7 +9,7 @@ import { passwordEncryptorService } from '@core/services/encrypters/password-enc
 function factory (): ControllerInputPort {
   const service = new ResetUserAccountPasswordService(
     updateUserAccountPasswordRepo,
-    fetchAccountByUsernameRepo,
+    fetchUserAccountByParamsRepo,
     passwordEncryptorService
   )
 

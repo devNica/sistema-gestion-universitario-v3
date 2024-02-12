@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
+import { refreshTokenFactory } from '@auth/factories/refresh-token.factory'
 import { resetUserAccountPasswordFactory } from '@auth/factories/reset-useraccount-password.factory'
 import { universitaryApplicantRegistrationFactory } from '@auth/factories/universitary-applicant-registration.factory'
 import { universityProfessorRegistrationFactory } from '@auth/factories/university-professor-registration.factory'
 import { upgradeGuestUserToStudentFactory } from '@auth/factories/upgrade-guest-user-to-student.factory'
 import { userLoginFactory } from '@auth/factories/user-login.factory'
-import { applicantInformationSchema, profesorInformationSchema, resetUserAccountPasswordSchema, userLoginSchema } from '@auth/schemas/useraccount.schema'
+import { applicantInformationSchema, profesorInformationSchema, refreshTokenSchema, resetUserAccountPasswordSchema, userLoginSchema } from '@auth/schemas/useraccount.schema'
 import { expressMiddlewareAdapter } from '@core/adapters/primary/express/express-middleware.adapter'
 import { expressRouteAdapter } from '@core/adapters/primary/express/express-route.adapter'
 import { validatorSchemaFactory } from '@core/adapters/primary/factory/validator-schema.factory'
@@ -30,5 +31,9 @@ authRouter.post('/register/professor',
 authRouter.patch('/password/applicant',
   expressMiddlewareAdapter(validatorSchemaFactory(resetUserAccountPasswordSchema)),
   expressRouteAdapter(resetUserAccountPasswordFactory))
+
+authRouter.put('/refresh/:userId',
+  expressMiddlewareAdapter(validatorSchemaFactory(refreshTokenSchema)),
+  expressRouteAdapter(refreshTokenFactory))
 
 export default authRouter

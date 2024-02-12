@@ -1,5 +1,5 @@
 import { type UniversitaryProfessorRegistrationIR, type FetchUserAccountIR, type ResetUserPasswordIR, type UniversitaryApplicantRegistrationIR, type PromoteGuestUserAccountToStudentIR, type VerifyUserRoleIR } from '@auth/models/repositories/repository-input.model'
-import { type FetchRolByNameOP, type UpdateUserAccountPasswordOP, type FetchAccountByUsernameOP, type CreateGuestUserOP, type CreateProfessorUserOP, type PromoteUserAccountOP, type VerifyUserRoleOP } from '@auth/ports/output/auth-repository.output.port'
+import { type FetchRolByNameOP, type UpdateUserAccountPasswordOP, type FetchUserAccountByParamsOP, type CreateGuestUserOP, type CreateProfessorUserOP, type PromoteUserAccountOP, type VerifyUserRoleOP } from '@auth/ports/output/auth-repository.output.port'
 import { type Sequelize, UniqueConstraintError, QueryError, ValidationError, QueryTypes } from 'sequelize'
 import RepositoryValidationErrorPresenter from '@core/adapters/primary/presenters/repository-validation-error.presenter'
 import InternalServerErrorPresenter from '@core/adapters/primary/presenters/internal-server-error.presenter'
@@ -10,7 +10,7 @@ import { type UserAccountEntity } from '@core/models/entities/auth.entity'
 import { fetchAccountByUsernameQuery, verifyUserRolQuery } from './queries/auth.query'
 
 class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessorUserOP, FetchRolByNameOP,
-  UpdateUserAccountPasswordOP, FetchAccountByUsernameOP, PromoteUserAccountOP, VerifyUserRoleOP {
+  UpdateUserAccountPasswordOP, FetchUserAccountByParamsOP, PromoteUserAccountOP, VerifyUserRoleOP {
   constructor (
     private readonly db: Sequelize
   ) { }
@@ -135,7 +135,8 @@ class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessor
     try {
       const user: UserProfileOR[] = await this.db.query(fetchAccountByUsernameQuery(), {
         replacements: {
-          username: data.username
+          username: data.username ?? '',
+          userId: data.userId ?? ''
         },
         type: QueryTypes.SELECT
       })
@@ -204,7 +205,7 @@ const createGuestUserRepo: CreateGuestUserOP = userAccountRepoAdapter
 const createProfessorUserRepo: CreateProfessorUserOP = userAccountRepoAdapter
 const fetchRolByNameRepo: FetchRolByNameOP = userAccountRepoAdapter
 const updateUserAccountPasswordRepo: UpdateUserAccountPasswordOP = userAccountRepoAdapter
-const fetchAccountByUsernameRepo: FetchAccountByUsernameOP = userAccountRepoAdapter
+const fetchUserAccountByParamsRepo: FetchUserAccountByParamsOP = userAccountRepoAdapter
 const verifyUserRoleRepo: VerifyUserRoleOP = userAccountRepoAdapter
 const promoteUserAccountRepo: PromoteUserAccountOP = userAccountRepoAdapter
 
@@ -213,7 +214,7 @@ export {
   createProfessorUserRepo,
   fetchRolByNameRepo,
   updateUserAccountPasswordRepo,
-  fetchAccountByUsernameRepo,
+  fetchUserAccountByParamsRepo,
   verifyUserRoleRepo,
   promoteUserAccountRepo
 }

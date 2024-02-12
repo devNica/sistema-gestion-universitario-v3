@@ -1,6 +1,6 @@
 import { type UserLoginIC } from '@auth/models/controllers/controller-input.model'
 import { type UserLoginOC } from '@auth/models/controllers/controller-output.model'
-import { type FetchAccountByUsernameOP } from '@auth/ports/output/auth-repository.output.port'
+import { type FetchUserAccountByParamsOP } from '@auth/ports/output/auth-repository.output.port'
 import ServiceValidationErrorPresenter from '@core/adapters/primary/presenters/service-validation-error.presenter'
 import { type UUID } from '@core/models/generic/custom-types.model'
 import { type StoreTokenModel } from '@core/models/token/token.model'
@@ -15,7 +15,7 @@ export interface UserLoginSrvI {
 
 export default class UserLoginService implements UserLoginSrvI {
   constructor (
-    private readonly port: FetchAccountByUsernameOP,
+    private readonly port: FetchUserAccountByParamsOP,
     private readonly encryptor: PasswordEncryptorOutputPort,
     private readonly tokenService: JWTOutputPort,
     private readonly cacheService: CacheOutputPort<StoreTokenModel>

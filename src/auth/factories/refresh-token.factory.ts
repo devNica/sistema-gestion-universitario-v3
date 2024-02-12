@@ -1,25 +1,23 @@
-import UserLoginController from '@auth/controllers/user-login.controller'
-import { type UserLoginOC } from '@auth/models/controllers/controller-output.model'
-import UserLoginService from '@auth/services/user-login.service'
+import RefreshTokenController from '@auth/controllers/refresh-token.controller'
+import { type RefreshTokenOC } from '@auth/models/controllers/controller-output.model'
+import RefreshTokenService from '@auth/services/refresh-token.service'
 import SuccessFulRequestPresenter from '@core/adapters/primary/presenters/successful-request.presenter'
 import { fetchUserAccountByParamsRepo } from '@core/adapters/secondary/repositories/useraccount-repository.adapter'
 import { type StoreTokenModel } from '@core/models/token/token.model'
 import { type ControllerInputPort } from '@core/ports/input/controller-input.port'
 import CacheService from '@core/services/cache/cache.service'
-import { passwordEncryptorService } from '@core/services/encrypters/password-encryptor.service'
 import { jwtTokenService } from '@core/services/token/jsonwebtoken.service'
 
 function factory (): ControllerInputPort {
-  const service = new UserLoginService(
+  const service = new RefreshTokenService(
     fetchUserAccountByParamsRepo,
-    passwordEncryptorService,
     jwtTokenService,
     new CacheService<StoreTokenModel>()
   )
 
-  const presenter = new SuccessFulRequestPresenter<UserLoginOC>()
+  const presenter = new SuccessFulRequestPresenter<RefreshTokenOC>()
 
-  const controller = new UserLoginController(
+  const controller = new RefreshTokenController(
     service,
     presenter
   )
@@ -27,4 +25,4 @@ function factory (): ControllerInputPort {
   return controller
 }
 
-export const userLoginFactory = factory()
+export const refreshTokenFactory = factory()

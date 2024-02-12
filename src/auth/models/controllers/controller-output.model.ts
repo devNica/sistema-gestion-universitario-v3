@@ -8,3 +8,7 @@ export type UserLoginOC = Pick<UserProfileOR, 'firstname' | 'lastname' > & {
 }
 
 export type UniversityProfessorRegistrationOC = Pick<UserProfileOR, 'username'>
+
+export interface RefreshTokenOC {
+  token: string
+}

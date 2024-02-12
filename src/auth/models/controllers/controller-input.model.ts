@@ -1,4 +1,5 @@
 import { type UserAccountEntity, type ProfileInfoEntity } from '@core/models/entities/auth.entity'
+import { type UUID } from '@core/models/generic/custom-types.model'
 
 export type UniversitaryApplicantRegistrationIC = Omit<ProfileInfoEntity, 'id'>
 
@@ -17,4 +18,8 @@ export type UpgradeGuestUserAccountToStudentIC = Pick<UserAccountEntity, 'id'>
 
 export type ResetPasswordIC = Pick<UserAccountEntity, 'username' | 'password'> & {
   newPassword: string
+}
+
+export interface RefreshTokenIC {
+  userId: UUID
 }

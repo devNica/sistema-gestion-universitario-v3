@@ -14,7 +14,9 @@ export type ResetUserPasswordIR = Omit<ResetUserPasswordIC, 'newPassword'> & {
   expiresIn: number
 }
 
-export type FetchUserAccountIR = Pick<UserLoginIC, 'username'>
+export type FetchUserAccountIR = Partial<Pick<UserLoginIC, 'username'>> & {
+  userId?: UUID
+}
 
 export type UniversitaryProfessorRegistrationIR = Omit<UniversityProfessorRegistrationIC, 'password'> & {
   passwordHashed: string

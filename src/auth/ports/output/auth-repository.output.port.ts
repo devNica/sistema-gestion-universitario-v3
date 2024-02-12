@@ -17,7 +17,7 @@ export interface UpdateUserAccountPasswordOP {
   updatePassword: (data: ResetUserPasswordIR) => Promise<void>
 }
 
-export interface FetchAccountByUsernameOP {
+export interface FetchUserAccountByParamsOP {
   fetchAccount: (data: FetchUserAccountIR) => Promise<UserProfileOR | never>
 }
 
