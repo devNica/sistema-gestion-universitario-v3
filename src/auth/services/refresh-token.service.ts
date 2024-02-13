@@ -23,11 +23,13 @@ export default class RefreshTokenService implements RefreshTokenSrvI {
     try {
       // recuperar tokens almancenado
       const cacheTokens = await this.cacheService.getStoreByName('refreshtokens')
+
       // filtrar para recuperar el token del usuario
-      const personalToken = cacheTokens.filter(t => t.userId !== userId)
+      const personalToken = cacheTokens.filter(t => t.userId === userId)
 
       this.tokenService.verify(personalToken[0].token)
     } catch (error: unknown) {
+      console.log(error)
       throw new ServiceValidationErrorPresenter('Token de Recuperacion Expirados', 'forbiddenRequest')
     }
   }
@@ -36,8 +38,8 @@ export default class RefreshTokenService implements RefreshTokenSrvI {
     try {
       const cacheTokens = await this.cacheService.getStoreByName('refreshtokens')
 
-      const personalToken = cacheTokens.filter(t => t.userId !== userId)
-      await this.cacheService.updateStoreByName('refreshtokens', [...personalToken,
+      const privatedToken = cacheTokens.filter(t => t.userId !== userId)
+      await this.cacheService.updateStoreByName('refreshtokens', [...privatedToken,
         { userId, token, createdAt: Date.now() }
       ])
     } catch (error) {

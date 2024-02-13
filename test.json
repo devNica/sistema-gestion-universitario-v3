@@ -1,0 +1,9 @@
+{
+    "data": {
+        "nameAcronyms": "LM",
+        "firstname": "Lucas Andres",
+        "lastname": "Marsell",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwZWQ1ODliLWYxOTMtNDk2OC05MGI0LThhNWM0MTY1NjY1ZiIsInJvbCI6Imludml0YWRvIiwiaWF0IjoxNzA3NzgxMjg4LCJleHAiOjE3MDc3ODE4ODh9.YCgSatL47Z4gc2fO-Ldktr_Vxzj75JKBLXB0JDP2fSE"
+    },
+    "message": "Inicio de Sesion Exitoso"
+}

@@ -15,11 +15,13 @@ export default class RefreshTokenController implements ControllerInputPort<Refre
   ) {}
 
   async handleRequest (request: HttpRequestModel<RefreshTokenIC>): Promise<HttpResponseModel<RefreshTokenOC>> {
-    if (!objectKeyExists(request, 'body')) {
+    if (!objectKeyExists(request, 'params')) {
       throw new RequestValidationErrorPresenter('Error in request body')
     }
 
-    const result = await this.service.refreshToken({ ...request.body })
-    return await this.presenter.handleResponse(result, 'Inicio de Sesion Exitoso')
+    const { userId } = request.params
+
+    const result = await this.service.refreshToken({ userId })
+    return await this.presenter.handleResponse(result, 'Refresco de token exitoso')
   }
 }

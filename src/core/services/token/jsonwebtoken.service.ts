@@ -48,8 +48,8 @@ export class JsonWebTokenService implements JWTOutputPort {
 
 const secret = constants.JWT_SECRET
 const refreshSecret = constants.JWT_SECRET_REFRESH
-const secretExpiration = constants.JWT_SECRET_EXPIRATION_SECS
-const refreshSecretExpiration = constants.JWT_SECRET_REFRESH_EXPIRATION_SECS
+const secretExpiration = Number(constants.JWT_SECRET_EXPIRATION_SECS)
+const refreshSecretExpiration = Number(constants.JWT_SECRET_REFRESH_EXPIRATION_SECS)
 
 export const jwtTokenService = new JsonWebTokenService(
   secret,
@@ -57,3 +57,5 @@ export const jwtTokenService = new JsonWebTokenService(
   secretExpiration,
   refreshSecretExpiration
 )
+
+console.log(jwtTokenService)

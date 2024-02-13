@@ -52,4 +52,6 @@ PATCH  http://localhost:9870/hw/core/v1/auth/guest/4ff2c28f-9e4f-4155-9167-19564
 Content-Type: application/json
 
 
-{"data":{"username":"lmarsell-3r5","password":"9jNDdd4YYV@"},"message":"Registro de Aspirante Universitatio Exitoso"}
+### realizar refresco de token
+PUT  http://localhost:9870/hw/core/v1/auth/refresh-token/30ed589b-f193-4968-90b4-8a5c4165665f HTTP/1.1
+Content-Type: application/json

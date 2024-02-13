@@ -97,10 +97,3 @@ export const profesorInformationSchema: Joi.ObjectSchema = Joi.object({
     'string.max': 'La contraseña no debe exceder los 15 caracteres'
   })
 })
-
-export const refreshTokenSchema: Joi.ObjectSchema = Joi.object({
-  userId: Joi.string().guid({ version: 'uuidv4' }).required().messages({
-    'any.required': 'El ID del usuario es requerido',
-    'string.base': 'El ID del usuario es invalido'
-  })
-})

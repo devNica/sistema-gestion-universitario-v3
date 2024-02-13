@@ -15,7 +15,7 @@ export type ResetUserPasswordIR = Omit<ResetUserPasswordIC, 'newPassword'> & {
 }
 
 export type FetchUserAccountIR = Partial<Pick<UserLoginIC, 'username'>> & {
-  userId?: UUID
+  userId?: UUID | string
 }
 
 export type UniversitaryProfessorRegistrationIR = Omit<UniversityProfessorRegistrationIC, 'password'> & {
