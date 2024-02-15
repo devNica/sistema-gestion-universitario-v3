@@ -30,6 +30,10 @@ declare global {
       DB_PASSWORD_TEST: string
       DB_HOST_TEST: string
       DB_DIALECT_TEST: 'mysql' | 'postgres' | 'mssql'
+
+      REDIS_HOST: string
+      REDIS_PASSWORD: string
+      REDIS_PORT: string
     }
   }
 }

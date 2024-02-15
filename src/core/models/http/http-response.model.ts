@@ -1,7 +1,8 @@
 export type HttpStatusResponseType =
     'successRequest' | 'createdRequest' | 'unAuthorizedRequest' |
     'forbiddenRequest' | 'badRequest' | 'internalServerErrorRequest' |
-    'notFoundRequest' | 'payloadTooLargeRequest' | 'unprocessableEntityRequest'
+    'notFoundRequest' | 'payloadTooLargeRequest' | 'unprocessableEntityRequest' |
+    'temporaryRedirect'
 
 export const HttpStatusRecord: Record<HttpStatusResponseType, number> = {
   successRequest: 200,
@@ -12,7 +13,8 @@ export const HttpStatusRecord: Record<HttpStatusResponseType, number> = {
   internalServerErrorRequest: 500,
   notFoundRequest: 404,
   payloadTooLargeRequest: 413,
-  unprocessableEntityRequest: 422
+  unprocessableEntityRequest: 422,
+  temporaryRedirect: 307
 }
 
 export interface HttpResponseModel<T> {
