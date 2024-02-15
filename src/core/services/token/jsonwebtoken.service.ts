@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { type TokenPayloadModel, type SignedToken } from '@core/models/token/token.model'
+import { type TokenPayloadModel, type SignedToken, type VerifiedTokenResponseModel } from '@core/models/token/token.model'
 import { type JWTOutputPort } from '@core/ports/output/security/jwt-output.port'
 import constants from '@core/shared/constants'
 import { createFutureDate } from '@core/shared/utils/create-future-date'
@@ -39,10 +39,13 @@ export class JsonWebTokenService implements JWTOutputPort {
     return { token, expirationDate }
   }
 
-  verify (token: string, isAccessToken?: boolean | undefined): string {
+  verify (token: string, isAccessToken?: boolean | undefined): VerifiedTokenResponseModel {
     const secret = isAccessToken ? this.secret : this.refreshSecret
-    const userData = jwt.verify(token, secret) as { id: string }
-    return userData.id
+    const userData = jwt.verify(token, secret) as { id: string, rol: string }
+    return {
+      id: userData.id,
+      rol: userData.rol
+    }
   }
 }
 
@@ -57,5 +60,3 @@ export const jwtTokenService = new JsonWebTokenService(
   secretExpiration,
   refreshSecretExpiration
 )
-
-console.log(jwtTokenService)

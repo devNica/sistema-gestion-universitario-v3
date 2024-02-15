@@ -14,14 +14,15 @@ Content-Type: application/json
 }
 
 
-### registro de cuentas de profesor
+#### registro de cuentas de profesor
 POST http://localhost:9870/hw/core/v1/auth/register/professor HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwZWQ1ODliLWYxOTMtNDk2OC05MGI0LThhNWM0MTY1NjY1ZiIsInJvbCI6Imludml0YWRvIiwiaWF0IjoxNzA3OTU1NjEzLCJleHAiOjE3MDc5NTYyMTN9.NwpVl0R7u1vWTVXKxVf4AdZ92MTXUygLU8nJF3ztCTI
 
 {
-    "personalEmail": "agonzalezs@test.com",
-    "firstname": "Alejandro",
-    "lastname": "Gonzalez",
+    "personalEmail": "yherreras3@test.com",
+    "firstname": "Yolandas",
+    "lastname": "Herrerasss",
     "password": "Lamisma123*"
 }
 

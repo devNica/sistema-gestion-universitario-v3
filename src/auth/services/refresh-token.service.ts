@@ -27,7 +27,7 @@ export default class RefreshTokenService implements RefreshTokenSrvI {
       // filtrar para recuperar el token del usuario
       const personalToken = cacheTokens.filter(t => t.userId === userId)
 
-      this.tokenService.verify(personalToken[0].token)
+      this.tokenService.verify(personalToken[0].token, false)
     } catch (error: unknown) {
       console.log(error)
       throw new ServiceValidationErrorPresenter('Token de Recuperacion Expirados', 'forbiddenRequest')

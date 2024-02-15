@@ -1,5 +1,5 @@
 import { type HttpRequestModel } from '../http/http-request.model'
 
-export interface ExpressMiddlewareModel extends HttpRequestModel {
+export interface MiddlewareRequestModel extends HttpRequestModel {
   method?: string
 }

@@ -1,4 +1,4 @@
-import { type ExpressMiddlewareModel } from '@core/models/middleware/express-middleware.model'
+import { type MiddlewareRequestModel } from '@core/models/middleware/middleware-request.model'
 import { type HttpRequestModel } from '@core/models/http/http-request.model'
 import { type JoiErrorDetailsModel, type JoiSchemaModel, type JoiValidationResultModel } from '@core/models/validations/joi-validation.model'
 import { type JoiValidationSchemaInputPort } from '@core/ports/input/joi-validation-input.port'
@@ -15,7 +15,7 @@ export class JoiValidationService <T> implements MiddlewareInputPort, JoiValidat
     return await schema.validateAsync(request.body, { abortEarly: false, allowUnknown: true })
   }
 
-  async handleRequest (request: ExpressMiddlewareModel): Promise<void> {
+  async handleRequest (request: MiddlewareRequestModel): Promise<void> {
     try {
       await this.validate(this.schema, request)
     } catch (error: any) {

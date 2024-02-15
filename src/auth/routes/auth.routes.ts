@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
+import { authenticateAdminFactory } from '@auth/factories/auth-middleware.factory'
 import { refreshTokenFactory } from '@auth/factories/refresh-token.factory'
 import { resetUserAccountPasswordFactory } from '@auth/factories/reset-useraccount-password.factory'
 import { universitaryApplicantRegistrationFactory } from '@auth/factories/universitary-applicant-registration.factory'
@@ -25,6 +26,7 @@ authRouter.patch('/guest/:userId/upgrade-to-student',
   expressRouteAdapter(upgradeGuestUserToStudentFactory))
 
 authRouter.post('/register/professor',
+  expressMiddlewareAdapter(authenticateAdminFactory),
   expressMiddlewareAdapter(validatorSchemaFactory(profesorInformationSchema)),
   expressRouteAdapter(universityProfessorRegistrationFactory))
 

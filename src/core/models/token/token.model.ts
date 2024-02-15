@@ -23,3 +23,8 @@ export interface StoreTokenModel {
   userId: UUID
   createdAt: number
 }
+
+export interface VerifiedTokenResponseModel {
+  id: string
+  rol: string
+}

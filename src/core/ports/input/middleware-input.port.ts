@@ -1,5 +1,5 @@
-import { type ExpressMiddlewareModel } from '@core/models/middleware/express-middleware.model'
+import { type MiddlewareRequestModel } from '@core/models/middleware/middleware-request.model'
 
-export interface MiddlewareInputPort {
-  handleRequest: (request: ExpressMiddlewareModel) => Promise<void | never>
+export interface MiddlewareInputPort <T=unknown> {
+  handleRequest: (request: MiddlewareRequestModel) => Promise<T | never>
 }
