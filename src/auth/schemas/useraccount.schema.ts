@@ -72,7 +72,12 @@ export const applicantInformationSchema: Joi.ObjectSchema = Joi.object({
   phoneNumber: Joi.string().regex(/^\+(?:\d\s?){10,}$/).required().messages({
     'any.required': 'Numero telefonico del postulante es requerido',
     'string.pattern.base': 'Formato del numero telefonico es incorrecto'
+  }),
+  initAccu: Joi.number().precision(2).required().messages({
+    'any.required': 'Acumulado inicial es requerido',
+    'number.base': 'El acumulado inicial debe ser una cifra numerica'
   })
+
 })
 
 export const profesorInformationSchema: Joi.ObjectSchema = Joi.object({

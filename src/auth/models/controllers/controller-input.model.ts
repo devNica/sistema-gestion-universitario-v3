@@ -1,6 +1,8 @@
 import { type UserAccountEntity, type ProfileInfoEntity } from '@core/models/entities/auth.entity'
 
-export type UniversitaryApplicantRegistrationIC = Omit<ProfileInfoEntity, 'id'>
+export type UniversitaryApplicantRegistrationIC = Omit<ProfileInfoEntity, 'id'> & {
+  initAccu: number
+}
 
 export type ResetUserPasswordIC = Pick<UserAccountEntity, 'username'> & {
   rol?: string

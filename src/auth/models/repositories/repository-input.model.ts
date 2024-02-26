@@ -2,7 +2,7 @@ import { type UUID } from '@core/models/generic/custom-types.model'
 import { type UserLoginIC, type ResetUserPasswordIC, type UniversitaryApplicantRegistrationIC, type UniversityProfessorRegistrationIC, type UpgradeGuestUserAccountToStudentIC } from '../controllers/controller-input.model'
 import { type RolEntity, type UserAccountEntity } from '@core/models/entities/auth.entity'
 
-export type UniversitaryApplicantRegistrationIR = Required<UniversitaryApplicantRegistrationIC> & {
+export type UniversitaryApplicantRegistrationIR = Omit<UniversitaryApplicantRegistrationIC, 'initAccu'> & {
   username: string
   passwordHashed: string
   rolId: UUID

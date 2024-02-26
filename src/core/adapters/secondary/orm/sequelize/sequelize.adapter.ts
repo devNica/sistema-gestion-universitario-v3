@@ -1,7 +1,7 @@
 import { type DatabaseOutputPort } from '@core/ports/output/db/db-output.port'
 import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { type Sequelize } from 'sequelize'
-import { ProfileHasPictureModel, ProfileInfoModel, RolModel, UserAccountModel, UserHasRoleModel } from './models'
+import { AdmissionModel, ProfileHasPictureModel, ProfileInfoModel, RolModel, UserAccountModel, UserHasRoleModel } from './models'
 import FileModel from './models/FileModel'
 
 export class SequelizeAdapter implements DatabaseOutputPort {
@@ -21,12 +21,16 @@ export class SequelizeAdapter implements DatabaseOutputPort {
 
   async syncModels (alter: boolean): Promise<void> {
     try {
+      // ADMISSION MODEL
+      AdmissionModel.belongsTo(ProfileInfoModel, { foreignKey: 'applicant_id' })
+
       // FILE MODEL
       FileModel.hasMany(ProfileHasPictureModel, { foreignKey: 'file_id' })
 
       // PROFILE INFO MODEL
       ProfileInfoModel.hasMany(UserAccountModel, { foreignKey: 'profile_id' })
       ProfileInfoModel.hasMany(ProfileHasPictureModel, { foreignKey: 'profile_id' })
+      ProfileInfoModel.hasOne(AdmissionModel, { foreignKey: 'applicant_id' })
 
       // PROFILE HAS PICTURE MODEL
       ProfileHasPictureModel.belongsTo(FileModel, { foreignKey: 'file_id' })

@@ -1,5 +1,6 @@
 import { type UniversitaryApplicantRegistrationIC } from '@auth/models/controllers/controller-input.model'
 import { type UniversitaryApplicantRegistrationOC } from '@auth/models/controllers/controller-output.model'
+import { type RegisterInitAccuOP } from '@auth/ports/output/applicant-repository.output.port'
 import { type CreateGuestUserOP, type FetchRolByNameOP } from '@auth/ports/output/auth-repository.output.port'
 import { type PasswordEncryptorOutputPort } from '@core/ports/output/security/password-encryptor-output.port'
 import constants from '@core/shared/constants'
@@ -15,6 +16,7 @@ export default class UniversitaryApplicantRegistrarionService implements Univers
   constructor (
     private readonly authPort: CreateGuestUserOP,
     private readonly rolPort: FetchRolByNameOP,
+    private readonly applicantPort: RegisterInitAccuOP,
     private readonly encryptor: PasswordEncryptorOutputPort
   ) {}
 
@@ -29,9 +31,7 @@ export default class UniversitaryApplicantRegistrarionService implements Univers
 
     const rol = await this.rolPort.fetchRol('invitado')
 
-    console.log('fecha de expiracion: ', new Date(getInitialPasswordExpirationTime()))
-
-    await this.authPort.createGuestUser({
+    const applicant = await this.authPort.createGuestUser({
       firstname: request.firstname,
       lastname: request.lastname,
       dni: request.dni,
@@ -45,6 +45,8 @@ export default class UniversitaryApplicantRegistrarionService implements Univers
       rolId: rol.id,
       expiresIn: getInitialPasswordExpirationTime()
     })
+
+    await this.applicantPort.registerInitAccu(request.initAccu, applicant.profileId)
 
     return {
       username,

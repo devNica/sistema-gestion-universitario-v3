@@ -20,7 +20,7 @@ export interface UserAccountEntity {
   expiresIn: number
   createdAt: Date
   updatedAt: Date
-  profileId: string
+  profileId: UUID
   roles?: Pick<RolEntity, 'id' | 'rol'>
 }
 
