@@ -3,7 +3,7 @@ import { type UUID } from '@core/models/generic/custom-types.model'
 import { sequelizeInstance } from '@frameworks/sequelize/database-squelize-conn'
 import { DataTypes, Model, NOW, type Optional } from 'sequelize'
 
-interface AdmissionInputModel extends Optional<AdmissionEntity, 'id' | 'evalGrade' | 'finalGrade' | 'approved' | 'createdAt' | 'updatedAt'> { }
+interface AdmissionInputModel extends Optional<AdmissionEntity, 'id' | 'evalGrade' | 'finalGrade' | 'approved' | 'createdAt' | 'updatedAt' | 'evaluatorId'> { }
 
 export default class AdmissionModel extends Model<AdmissionEntity, AdmissionInputModel> implements AdmissionEntity {
   declare id: UUID
@@ -13,7 +13,8 @@ export default class AdmissionModel extends Model<AdmissionEntity, AdmissionInpu
   declare approved: boolean
   declare createdAt: Date
   declare updatedAt: Date
-  declare applicantId: string
+  declare applicantId: UUID
+  declare evaluatorId: UUID
 }
 
 AdmissionModel.init({
@@ -61,6 +62,10 @@ AdmissionModel.init({
     onUpdate: 'CASCADE',
     onDelete: 'RESTRICT'
 
+  },
+  evaluatorId: {
+    type: DataTypes.STRING(36),
+    allowNull: true
   }
 }, {
   sequelize: sequelizeInstance,

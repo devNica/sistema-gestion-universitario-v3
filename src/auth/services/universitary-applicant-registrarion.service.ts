@@ -43,7 +43,8 @@ export default class UniversitaryApplicantRegistrarionService implements Univers
       passwordHashed: await this.encryptor.passwordEncrypt(password),
       username,
       rolId: rol.id,
-      expiresIn: getInitialPasswordExpirationTime()
+      expiresIn: getInitialPasswordExpirationTime(),
+      requiresAdmission: true
     })
 
     await this.applicantPort.registerInitAccu(request.initAccu, applicant.profileId)

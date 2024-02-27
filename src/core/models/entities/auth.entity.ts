@@ -34,6 +34,7 @@ export interface ProfileInfoEntity {
   nationality: string
   address: string
   personalEmail: string
+  requiresAdmission: boolean
 }
 
 export interface ProfileHasPictureEntity {

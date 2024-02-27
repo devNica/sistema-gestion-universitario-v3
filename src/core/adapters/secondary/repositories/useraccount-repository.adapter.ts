@@ -23,7 +23,8 @@ class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessor
         const profile = await ProfileInfoModel.create({
           firstname: data.firstname,
           lastname: data.lastname,
-          personalEmail: data.personalEmail
+          personalEmail: data.personalEmail,
+          requiresAdmission: false
         }, { transaction: t })
 
         user = await UserAccountModel.create({
@@ -67,7 +68,8 @@ class UserAccountRepositoryAdapter implements CreateGuestUserOP, CreateProfessor
           address: data.address,
           birthdate: data.birthdate,
           nationality: data.nationality,
-          personalEmail: data.personalEmail
+          personalEmail: data.personalEmail,
+          requiresAdmission: data.requiresAdmission
         }, { transaction: t })
 
         user = await UserAccountModel.create({

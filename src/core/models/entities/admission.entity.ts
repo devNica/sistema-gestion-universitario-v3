@@ -8,5 +8,6 @@ export interface AdmissionEntity {
   approved: boolean
   createdAt: Date
   updatedAt: Date
-  applicantId: string
+  applicantId: UUID
+  evaluatorId: UUID
 }
