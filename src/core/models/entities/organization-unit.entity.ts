@@ -1,16 +1,18 @@
 import { type UUID } from '../generic/custom-types.model'
 
-export interface OrgUnitEntity {
+export interface OrganizationalUnitEntity {
   id: UUID
   unitName: string
   reference: string
   createdAt: Date
   updatedAt: Date
+  Courses?: CourseEntity[]
 }
 
 export interface CourseEntity {
   id: UUID
-  referenceName: string
+  courseName: string
+  reference: string
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -19,7 +21,7 @@ export interface CourseEntity {
 
 export interface CampusEntity {
   id: UUID
-  referenceName: string
+  campusName: string
   address: string
   email: string
   phones: string

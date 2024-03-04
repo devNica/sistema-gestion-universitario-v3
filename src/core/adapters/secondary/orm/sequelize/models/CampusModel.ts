@@ -7,7 +7,7 @@ interface CampusInputModel extends Optional<CampusEntity, 'id'> { }
 
 export default class CampusModel extends Model<CampusEntity, CampusInputModel> implements CampusEntity {
   declare id: UUID
-  declare referenceName: string
+  declare campusName: string
   declare address: string
   declare email: string
   declare phones: string
@@ -21,9 +21,10 @@ CampusModel.init({
     unique: true,
     defaultValue: DataTypes.UUIDV4
   },
-  referenceName: {
+  campusName: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   address: {
     type: DataTypes.TEXT,

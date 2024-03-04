@@ -57,3 +57,15 @@ Content-Type: application/json
 ### realizar refresco de token
 PUT  http://localhost:9870/hw/core/v1/auth/refresh-token/30ed589b-f193-4968-90b4-8a5c4165665f HTTP/1.1
 Content-Type: application/json
+
+### campus register
+POST  http://localhost:9870/hw/core/v1/org/campus HTTP/1.1
+Content-Type: application/json
+
+{
+   "referenceName": "Recinto Nacional de Ingenieria y Arquitectura",
+   "address": "cualquier direiccion",
+   "email": "rci@universidad.com",
+   "phones": [{ "tel": "+512-4839483"}, {"tel": "+512-43784378"}]
+} 
+

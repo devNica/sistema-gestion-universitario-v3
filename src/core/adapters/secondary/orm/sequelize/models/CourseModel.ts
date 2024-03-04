@@ -7,9 +7,9 @@ interface CourseInputModel extends Optional<CourseEntity, 'id' | 'createdAt' | '
 
 export default class CourseModel extends Model<CourseEntity, CourseInputModel> implements CourseEntity {
   declare id: UUID
-  declare referenceName: string
+  declare courseName: string
+  declare reference: string
   declare isActive: boolean
-
   declare createdAt: Date
   declare updatedAt: Date
   declare unitId: UUID
@@ -23,8 +23,13 @@ CourseModel.init({
     unique: true,
     defaultValue: DataTypes.UUIDV4
   },
-  referenceName: {
-    type: DataTypes.STRING,
+  courseName: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+    unique: true
+  },
+  reference: {
+    type: DataTypes.STRING(10),
     allowNull: false,
     unique: true
   },
@@ -47,7 +52,7 @@ CourseModel.init({
     primaryKey: true,
     allowNull: false,
     references: {
-      model: 'org_unit',
+      model: 'organizational_unit',
       key: 'id'
     },
     onDelete: 'RESTRICT',
