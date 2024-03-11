@@ -1,15 +1,15 @@
-import RefreshTokenController from '@auth/controllers/refresh-token.controller'
-import { type RefreshTokenOC } from '@auth/models/controllers/controller-output.model'
-import RefreshTokenService from '@auth/services/refresh-token.service'
+import RefreshTokenController from '@auth/interface/adapters/primary/controllers/refresh-token.controller'
+import { fetchUserAccountByParamsRepo } from '@auth/interface/adapters/secondary/repositories/auth-repository.adapter'
+import { type RefreshTokenOC } from '@auth/domain/models/controllers/controller-output.model'
+import RefreshTokenUsecase from '@auth/application/usecase/refresh-token.usecase'
 import SuccessFulRequestPresenter from '@core/adapters/primary/presenters/successful-request.presenter'
-import { fetchUserAccountByParamsRepo } from '@core/adapters/secondary/repositories/useraccount-repository.adapter'
 import { type StoreTokenModel } from '@core/models/token/token.model'
 import { type ControllerInputPort } from '@core/ports/input/controller-input.port'
 import CacheService from '@core/services/cache/cache.service'
 import { jwtTokenService } from '@core/services/token/jsonwebtoken.service'
 
 function factory (): ControllerInputPort {
-  const service = new RefreshTokenService(
+  const usecase = new RefreshTokenUsecase(
     fetchUserAccountByParamsRepo,
     jwtTokenService,
     new CacheService<StoreTokenModel>()
@@ -18,7 +18,7 @@ function factory (): ControllerInputPort {
   const presenter = new SuccessFulRequestPresenter<RefreshTokenOC>()
 
   const controller = new RefreshTokenController(
-    service,
+    usecase,
     presenter
   )
 

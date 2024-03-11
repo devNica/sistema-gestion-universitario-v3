@@ -1,12 +1,12 @@
-import UpgradeGuestUserToStudentController from '@auth/controllers/upgrade-guest-user-to-student.controller'
-import UpgradeGuestUserToStudentService from '@auth/services/upgrade-guest-user-to-student.service'
+import { promoteUserAccountRepo, verifyUserRoleRepo, fetchRolByNameRepo } from '@auth/interface/adapters/secondary/repositories/auth-repository.adapter'
+import UpgradeGuestUserToStudentController from '@auth/interface/adapters/primary/controllers/upgrade-guest-user-to-student.controller'
+import UpgradeGuestUserToStudentUsecase from '@auth/application/usecase/upgrade-guest-user-to-student.usecase'
 import SuccessFulUpdatedPresenter from '@core/adapters/primary/presenters/successful-update.presenter'
-import { fetchRolByNameRepo, promoteUserAccountRepo, verifyUserRoleRepo } from '@core/adapters/secondary/repositories/useraccount-repository.adapter'
 import { type EmptyResponseModel } from '@core/models/generic/response.model'
 import { type ControllerInputPort } from '@core/ports/input/controller-input.port'
 
 function factory (): ControllerInputPort {
-  const service = new UpgradeGuestUserToStudentService(
+  const usecase = new UpgradeGuestUserToStudentUsecase(
     promoteUserAccountRepo,
     verifyUserRoleRepo,
     fetchRolByNameRepo
@@ -15,7 +15,7 @@ function factory (): ControllerInputPort {
   const presenter = new SuccessFulUpdatedPresenter<EmptyResponseModel>()
 
   const controller = new UpgradeGuestUserToStudentController(
-    service,
+    usecase,
     presenter
   )
 

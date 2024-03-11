@@ -14,7 +14,7 @@ export default class UserAccountModel extends Model<UserAccountEntity, UserAccou
   declare expiresIn: number
   declare createdAt: Date
   declare updatedAt: Date
-  declare profileId: string
+  declare profileId: UUID
   roles?: Pick<RolEntity, 'id' | 'rol'> | undefined
 }
 

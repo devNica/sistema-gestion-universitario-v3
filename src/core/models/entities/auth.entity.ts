@@ -20,7 +20,7 @@ export interface UserAccountEntity {
   expiresIn: number
   createdAt: Date
   updatedAt: Date
-  profileId: string
+  profileId: UUID
   roles?: Pick<RolEntity, 'id' | 'rol'>
 }
 
@@ -34,6 +34,7 @@ export interface ProfileInfoEntity {
   nationality: string
   address: string
   personalEmail: string
+  requiresAdmission: boolean
 }
 
 export interface ProfileHasPictureEntity {

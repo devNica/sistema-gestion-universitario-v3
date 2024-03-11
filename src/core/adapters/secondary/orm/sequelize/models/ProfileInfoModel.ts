@@ -15,6 +15,7 @@ export default class ProfileInfoModel extends Model<ProfileInfoEntity, ProfileIn
   declare nationality: string
   declare address: string
   declare personalEmail: string
+  declare requiresAdmission: boolean
 }
 
 ProfileInfoModel.init({
@@ -58,6 +59,10 @@ ProfileInfoModel.init({
     type: DataTypes.STRING,
     allowNull: false,
     unique: true
+  },
+  requiresAdmission: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
   }
 }, {
   sequelize: sequelizeInstance,
