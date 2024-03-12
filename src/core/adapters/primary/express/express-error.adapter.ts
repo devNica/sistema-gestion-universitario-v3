@@ -12,8 +12,7 @@ export function expressAsyncErrorAdapter
       .json({
         message: error.message,
         data: {
-          name: error.name,
-          messages: error.messages
+          name: error.name
         }
       })
   }
@@ -22,8 +21,7 @@ export function expressAsyncErrorAdapter
       .json({
         message: error.message,
         data: {
-          name: error.name,
-          messages: error.messages
+          name: error.name
         }
       })
   }
@@ -32,8 +30,7 @@ export function expressAsyncErrorAdapter
       .json({
         message: error.message,
         data: {
-          name: error.name,
-          messages: error.messages
+          name: error.name
         }
       })
   }

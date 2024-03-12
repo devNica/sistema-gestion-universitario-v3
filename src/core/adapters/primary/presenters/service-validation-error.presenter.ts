@@ -1,14 +1,12 @@
 import { HttpStatusRecord, type HttpStatusResponseType } from '@core/models/http/http-response.model'
 
 export default class ServiceValidationErrorPresenter extends Error {
-  public statusCode: number
-  public name: 'Service Validations'
-  public messages: string[] = []
+  public readonly name: 'Error in Validation Service'
+  public readonly statusCode: number
 
-  constructor (message: string, httpStatus: HttpStatusResponseType = 'badRequest') {
+  constructor (httpStatus: HttpStatusResponseType, message?: string) {
     super(message)
     this.message = message ?? this.name
-    this.messages.push(this.message)
     this.statusCode = HttpStatusRecord[`${httpStatus}`]
   }
 }

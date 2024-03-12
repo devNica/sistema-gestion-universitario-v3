@@ -30,7 +30,7 @@ export default class UserLoginUsecase implements UserLoginUsecaseIP {
         { userId, token, createdAt: Date.now() }
       ])
     } catch (error) {
-      throw new ServiceValidationErrorPresenter(String(error))
+      throw new ServiceValidationErrorPresenter('internalServerErrorRequest', String(error))
     }
   }
 
@@ -43,11 +43,11 @@ export default class UserLoginUsecase implements UserLoginUsecaseIP {
     const verifyPassword = await this.encryptor.validatePassword(userfound.password, request.password)
 
     if (!verifyPassword) {
-      throw new ServiceValidationErrorPresenter('Crendenciales Incorrectas')
+      throw new ServiceValidationErrorPresenter('unAuthorizedRequest', 'Crendenciales Incorrectas')
     }
 
     if (!checkExpirationDate(userfound.expiresIn)) {
-      throw new ServiceValidationErrorPresenter('Contraseña Expirada', 'temporaryRedirect')
+      throw new ServiceValidationErrorPresenter('temporaryRedirect', 'Contraseña Expirada')
     }
 
     const sessionToken = this.tokenService.signAccessToken({ id: userfound.id, rol: userfound.rol })

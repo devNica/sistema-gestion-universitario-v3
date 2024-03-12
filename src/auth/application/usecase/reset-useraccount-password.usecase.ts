@@ -23,12 +23,12 @@ export default class ResetUserAccountPasswordUsecase implements ResetUserAccount
       })
     } else {
       if (!objectKeyExists(request, 'prevPassword')) {
-        throw new ServiceValidationErrorPresenter('Contrasenia previa es requerida')
+        throw new ServiceValidationErrorPresenter('badRequest', 'Contrasenia previa es requerida')
       }
       const userFound = await this.portB.fetchAccount({ username: request.username })
       const verify = await this.encryptor.validatePassword(userFound.password, request.prevPassword)
 
-      if (!verify) throw new ServiceValidationErrorPresenter('La contrasenia anterior no pudo ser verificada')
+      if (!verify) throw new ServiceValidationErrorPresenter('unAuthorizedRequest', 'La contrasenia anterior no pudo ser verificada')
 
       await this.portA.updatePassword({
         username: request.username,

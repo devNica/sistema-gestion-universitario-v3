@@ -17,7 +17,7 @@ export default class UpgradeGuestUserToStudentUsecase implements UpgradeGuestUse
       rol: 'invitado'
     })
 
-    if (!verify) throw new ServiceValidationErrorPresenter('El rol actual del usuario no esta permitido')
+    if (!verify) throw new ServiceValidationErrorPresenter('unAuthorizedRequest', 'El rol actual del usuario no esta permitido')
 
     const rol = await this.portC.fetchRol('estudiante')
 

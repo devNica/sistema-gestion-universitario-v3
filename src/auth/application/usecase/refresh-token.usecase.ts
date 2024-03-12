@@ -27,7 +27,7 @@ export default class RefreshTokenUsecase implements RefreshTokenUsecaseIP {
       this.tokenService.verify(personalToken[0].token, false)
     } catch (error: unknown) {
       console.log(error)
-      throw new ServiceValidationErrorPresenter('Token de Recuperacion Expirados', 'forbiddenRequest')
+      throw new ServiceValidationErrorPresenter('forbiddenRequest', 'Token de Recuperacion Expirados')
     }
   }
 
@@ -40,7 +40,7 @@ export default class RefreshTokenUsecase implements RefreshTokenUsecaseIP {
         { userId, token, createdAt: Date.now() }
       ])
     } catch (error) {
-      throw new ServiceValidationErrorPresenter(String(error))
+      throw new ServiceValidationErrorPresenter('badRequest', String(error))
     }
   }
 
@@ -49,7 +49,7 @@ export default class RefreshTokenUsecase implements RefreshTokenUsecaseIP {
 
     // validate password expires
     if (!checkExpirationDate(userFound.expiresIn)) {
-      throw new ServiceValidationErrorPresenter('Contraseña Expirada', 'temporaryRedirect')
+      throw new ServiceValidationErrorPresenter('temporaryRedirect', 'Contraseña Expirada')
     }
 
     // validate refresh token
