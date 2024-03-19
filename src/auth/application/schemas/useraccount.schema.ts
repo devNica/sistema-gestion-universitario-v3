@@ -30,14 +30,14 @@ export const resetUserAccountPasswordSchema: Joi.ObjectSchema = Joi.object({
   prevPassword: Joi.string().optional().messages({
     'any.required': 'La contraseña anterior es requerida',
     'string.base': 'Formato de contraseña anterior incorrecto'
+  }),
+  rol: Joi.string().optional().messages({
+    'any.required': 'Rol de usuario es requerido',
+    'string.base': 'Formato del rol de usuario incorrecto'
   })
-  // profileId: Joi.string().guid({ version: 'uuidv4' }).required().messages({
-  //   'any.required': 'ID de asociacion al perfil es requerido',
-  //   'string.base': 'El ID del perfil es incorrecto'
-  // })
 })
 
-export const applicantInformationSchema: Joi.ObjectSchema = Joi.object({
+export const guestUserSchema: Joi.ObjectSchema = Joi.object({
   personalEmail: Joi.string().email().required().messages({
     'any.required': 'Correo del postulante es requerido',
     'string.base': 'Formato de correo incorrecto',
@@ -80,7 +80,7 @@ export const applicantInformationSchema: Joi.ObjectSchema = Joi.object({
 
 })
 
-export const profesorInformationSchema: Joi.ObjectSchema = Joi.object({
+export const professorUserSchema: Joi.ObjectSchema = Joi.object({
   personalEmail: Joi.string().email().required().messages({
     'any.required': 'Correo del postulante es requerido',
     'string.base': 'Formato de correo incorrecto',
