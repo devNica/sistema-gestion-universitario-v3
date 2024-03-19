@@ -9,7 +9,6 @@ export interface UserHasRoleDB {
 }
 
 export interface PersonalInfoDB {
-  id: string
   firstname: string
   lastname: string
   address: string
@@ -30,5 +29,5 @@ export interface UserAccountDB {
   expiresIn: number
   createdAt: Date
   updatedAt: Date
-  personalInfo: string
+  personalInfo: PersonalInfoDB
 }

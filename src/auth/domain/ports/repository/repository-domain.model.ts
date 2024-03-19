@@ -1,8 +1,8 @@
-import { type PersonalInfoEntity, type UserEntity } from '@auth/domain/entities/AuthEntity'
+import { type PersonalInfoVO, type UserEntity } from '@auth/domain/entities/AuthEntity'
 
 export type ProfessorRegistrationRepositoryModel =
     Pick<UserEntity, 'username' | 'expiresIn'> &
-    Pick<PersonalInfoEntity, 'firstname' | 'lastname' | 'personalEmail'> &
+    Pick<PersonalInfoVO, 'firstname' | 'lastname' | 'personalEmail'> &
     {
       passwordHashed: string
       rolId: string
@@ -10,7 +10,7 @@ export type ProfessorRegistrationRepositoryModel =
 
 export type GuestRegistrationRepositoryModel =
     Pick<UserEntity, 'username' | 'expiresIn'> &
-    Omit<PersonalInfoEntity, 'id'> &
+    Required<PersonalInfoVO> &
     {
       passwordHashed: string
       rolId: string

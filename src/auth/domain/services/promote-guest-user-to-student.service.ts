@@ -4,6 +4,7 @@ import { type PromoteAccountModel } from '../ports/application/application-domai
 import { type PromoteAccountPort } from '../ports/application/application-domain.port'
 import { type UserRepositoryPort, type RolRepositoryPort, type UserSpecificationPort } from '../ports/repository/repository-domain.port'
 import { type RolEntity, type UserEntity } from '../entities/AuthEntity'
+import { isUUIDV4 } from '@core/shared/utils/object-key-exist'
 
 export default class PromoteGuestUserToStudentDomainService implements PromoteAccountPort {
   constructor (
@@ -13,6 +14,7 @@ export default class PromoteGuestUserToStudentDomainService implements PromoteAc
   ) {}
 
   async promote (data: PromoteAccountModel): Promise<EmptyResponseModel> {
+    if (!isUUIDV4(data.userId)) { throw new ServiceValidationErrorPresenter('badRequest', 'Error de formato del identificador de usuario') }
     /** verificar rol actual del usuario */
     const verify = await this.portB.isGuestUser({
       userId: data.userId

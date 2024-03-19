@@ -1,4 +1,4 @@
-import { type UserAccountDB } from '@core/domain/entities/AuthEntity'
+import { type PersonalInfoDB, type UserAccountDB } from '@core/domain/entities/AuthEntity'
 import { type UUID } from '@core/domain/models/customs/custom-types.model'
 import { sequelizeInstance } from '@core/shared/configs/sequelize-client.config'
 import { DataTypes, Model, NOW, type Optional } from 'sequelize'
@@ -14,7 +14,7 @@ export default class UserAccountModel extends Model<UserAccountDB, UserAccountIn
   declare expiresIn: number
   declare createdAt: Date
   declare updatedAt: Date
-  declare personalInfo: string
+  declare personalInfo: PersonalInfoDB
 }
 
 UserAccountModel.init({

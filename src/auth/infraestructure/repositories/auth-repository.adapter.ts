@@ -6,7 +6,7 @@ import RepositoryValidationErrorPresenter from '@core/application/presenter/repo
 import InternalServerErrorPresenter from '@core/application/presenter/internal-server-error.presenter'
 import { sequelizeInstance } from '@core/shared/configs/sequelize-client.config'
 import { type UserEntity } from '@auth/domain/entities/AuthEntity'
-import { PersonalInfoModel, UserAccountModel, UserHasRoleModel } from '@core/infraestructure/sequelize/models'
+import { UserAccountModel, UserHasRoleModel } from '@core/infraestructure/sequelize/models'
 import { type UserAccountDB } from '@core/domain/entities/AuthEntity'
 
 class AuthRepositoryAdapter
@@ -64,17 +64,20 @@ UserSpecificationPort<UserEntity> {
       let user: UserAccountDB
 
       await this.db.transaction(async (t) => {
-        const personalInfo = await PersonalInfoModel.create({
-          firstname: data.firstname,
-          lastname: data.lastname,
-          personalEmail: data.personalEmail,
-          requiresAdmission: false
-        }, { transaction: t })
-
         user = await UserAccountModel.create({
           username: data.username,
           password: data.passwordHashed,
-          infoId: personalInfo.id,
+          personalInfo: {
+            firstname: data.firstname,
+            lastname: data.lastname,
+            personalEmail: data.personalEmail,
+            requiresAdmission: false,
+            address: '',
+            birthdate: '',
+            dni: '',
+            nationality: '',
+            phoneNumber: ''
+          },
           expiresIn: data.expiresIn,
           state: true
         }, { transaction: t })
@@ -98,23 +101,21 @@ UserSpecificationPort<UserEntity> {
       let user: UserAccountDB | null = null
 
       await this.db.transaction(async (t) => {
-        const personalInfo = await PersonalInfoModel.create({
-          firstname: data.firstname,
-          lastname: data.lastname,
-          dni: data.dni,
-          phoneNumber: data.phoneNumber,
-          address: data.address,
-          birthdate: data.birthdate,
-          nationality: data.nationality,
-          personalEmail: data.personalEmail,
-          requiresAdmission: data.requiresAdmission
-        }, { transaction: t })
-
         user = await UserAccountModel.create({
           username: data.username,
           password: data.passwordHashed,
           expiresIn: data.expiresIn,
-          infoId: personalInfo.id,
+          personalInfo: {
+            firstname: data.firstname,
+            lastname: data.lastname,
+            dni: data.dni,
+            phoneNumber: data.phoneNumber,
+            address: data.address,
+            birthdate: data.birthdate,
+            nationality: data.nationality,
+            personalEmail: data.personalEmail,
+            requiresAdmission: data.requiresAdmission
+          },
           state: true
         }, { transaction: t })
 

@@ -18,7 +18,7 @@ async function startServer (): Promise<void> {
     .then(() => { console.log('Database connected success') })
     .catch(err => { console.error(err) })
 
-  db.syncModels(true)
+  db.syncModels(false)
     .then(() => { console.log('Modelos sincronizados') })
     .catch(err => { console.error(err) })
 

@@ -9,18 +9,16 @@ export class RolEntity {
   ) {}
 }
 
-export class PersonalInfoEntity {
-  constructor (
-    public firstname: string,
-    public lastname: string,
-    public address: string,
-    public dni: string,
-    public phoneNumber: string,
-    public birthdate: string,
-    public nationality: string,
-    public personalEmail: string,
-    public requiresAdmission: boolean
-  ) {}
+export interface PersonalInfoVO {
+  firstname: string
+  lastname: string
+  address: string
+  dni: string
+  phoneNumber: string
+  birthdate: string
+  nationality: string
+  personalEmail: string
+  requiresAdmission: boolean
 }
 
 export class UserEntity {
@@ -31,11 +29,11 @@ export class UserEntity {
     public isRoot: boolean,
     public state: boolean,
     public expiresIn: number,
+    public personalInfo: PersonalInfoVO,
     public infoId?: string | UUID,
     public rolId?: string,
     public createdAt?: Date,
     public updatedAt?: Date,
-    public personalInfo?: PersonalInfoEntity,
     public rolInfo?: Partial<RolEntity>
   ) {}
 }

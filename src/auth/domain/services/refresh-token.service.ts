@@ -8,6 +8,7 @@ import { type UserRepositoryPort } from '../ports/repository/repository-domain.p
 import { type UserEntity } from '../entities/AuthEntity'
 import { type NewTokenModel, type RefreshTokenModel } from '../ports/application/application-domain.model'
 import { type RefreshTokenPort } from '../ports/application/application-domain.port'
+import { isUUIDV4 } from '@core/shared/utils/object-key-exist'
 
 export default class RefreshTokenDomainService implements RefreshTokenPort {
   constructor (
@@ -46,6 +47,8 @@ export default class RefreshTokenDomainService implements RefreshTokenPort {
 
   async refreshToken (request: RefreshTokenModel): Promise<NewTokenModel> {
     const userFound = await this.userPort.fetch({ userId: request.userId })
+
+    if (!isUUIDV4(request.userId)) { throw new ServiceValidationErrorPresenter('badRequest', 'Error de formato del identificador de usuario') }
 
     /* eslint-disable @typescript-eslint/strict-boolean-expressions */
     if (!userFound?.rolId) { throw new ServiceValidationErrorPresenter('internalServerErrorRequest', 'Error de consulta de informacion') }
