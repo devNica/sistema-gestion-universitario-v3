@@ -1,20 +1,20 @@
-import { type ProfileHasPictureDB } from '@core/domain/entities/FileEntity'
+import { type UserHasPictureDB } from '@core/domain/entities/FileEntity'
 import { type UUID } from '@core/domain/models/customs/custom-types.model'
 import { sequelizeInstance } from '@core/shared/configs/sequelize-client.config'
 import { DataTypes, Model } from 'sequelize'
 
-export default class ProfileHasPictureModel extends Model<ProfileHasPictureDB> implements ProfileHasPictureDB {
-  declare infoId: UUID
+export default class UserHasPictureModel extends Model<UserHasPictureDB> implements UserHasPictureDB {
+  declare userId: UUID
   declare fileId: UUID
 }
 
-ProfileHasPictureModel.init({
-  infoId: {
+UserHasPictureModel.init({
+  userId: {
     type: DataTypes.UUID,
     allowNull: false,
     primaryKey: true,
     references: {
-      model: 'personal_info',
+      model: 'user_account',
       key: 'id'
     },
     onDelete: 'RESTRICT',
@@ -33,5 +33,5 @@ ProfileHasPictureModel.init({
   }
 }, {
   sequelize: sequelizeInstance,
-  modelName: 'profile_has_picture'
+  modelName: 'user_has_picture'
 })

@@ -56,7 +56,7 @@ AdmissionModel.init({
     primaryKey: true,
     allowNull: false,
     references: {
-      model: 'personal_info',
+      model: 'user_account',
       key: 'id'
     },
     onUpdate: 'CASCADE',

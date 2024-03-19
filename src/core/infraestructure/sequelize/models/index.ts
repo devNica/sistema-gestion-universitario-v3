@@ -1,9 +1,9 @@
 import RolModel from './rol.model'
-import PersonalInfoModel from './personal-info.model'
+// import PersonalInfoModel from './personal-info.model'
 import UserAccountModel from './useraccount.model'
 import UserHasRoleModel from './user-has-rol.model'
 import FileModel from './file.model'
-import ProfileHasPictureModel from './profile-has-picture.model'
+import UserHasPictureModel from './user_has_picture.model'
 import AdmissionModel from './admission.model'
 import OrgUnitModel from './organizational-unit.model'
 import CourseModel from './course.model'
@@ -15,11 +15,11 @@ import StudentModel from './student.model'
 
 export {
   RolModel,
-  PersonalInfoModel,
+  // PersonalInfoModel,
   UserAccountModel,
   UserHasRoleModel,
   FileModel,
-  ProfileHasPictureModel,
+  UserHasPictureModel,
   AdmissionModel,
   OrgUnitModel,
   CourseModel,

@@ -14,7 +14,7 @@ export default class UserAccountModel extends Model<UserAccountDB, UserAccountIn
   declare expiresIn: number
   declare createdAt: Date
   declare updatedAt: Date
-  declare infoId: UUID
+  declare personalInfo: string
 }
 
 UserAccountModel.init({
@@ -34,16 +34,10 @@ UserAccountModel.init({
     type: DataTypes.STRING,
     allowNull: false
   },
-  infoId: {
-    type: DataTypes.UUID,
+  personalInfo: {
+    type: DataTypes.JSONB,
     allowNull: false,
-    primaryKey: true,
-    references: {
-      model: 'personal_info',
-      key: 'id'
-    },
-    onDelete: 'RESTRICT',
-    onUpdate: 'CASCADE'
+    defaultValue: []
   },
   isRoot: {
     type: DataTypes.BOOLEAN,

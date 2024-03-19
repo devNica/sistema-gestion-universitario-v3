@@ -1,13 +1,11 @@
-import { type UUID } from '../models/customs/custom-types.model'
-
 export interface StudentDB {
-  id: UUID
+  id: string
   studentNumber: string
   finishedAcademicPlan: boolean
-  courseProgramId: UUID
-  campusId: UUID
-  infoId: UUID
-  enrollmentTypeId: UUID
+  courseProgramId: string
+  campusId: string
+  userId: string
+  enrollmentTypeId: string
   createdAt: Date
   updatedAt: Date
   isActive: boolean

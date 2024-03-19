@@ -1,17 +1,15 @@
-import { type UUID } from '../models/customs/custom-types.model'
-
 export interface RolDB {
   id: string
   rol: string
 }
 
 export interface UserHasRoleDB {
-  rolId: UUID | string
-  userId: UUID | string
+  rolId: string
+  userId: string
 }
 
 export interface PersonalInfoDB {
-  id: UUID | string
+  id: string
   firstname: string
   lastname: string
   address: string
@@ -32,5 +30,5 @@ export interface UserAccountDB {
   expiresIn: number
   createdAt: Date
   updatedAt: Date
-  infoId: string | UUID
+  personalInfo: string
 }

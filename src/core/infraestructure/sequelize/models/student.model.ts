@@ -1,18 +1,17 @@
 import { type StudentDB } from '@core/domain/entities/StudentEntity'
-import { type UUID } from '@core/domain/models/customs/custom-types.model'
 import { sequelizeInstance } from '@core/shared/configs/sequelize-client.config'
 import { DataTypes, Model, NOW, type Optional } from 'sequelize'
 
 interface StudentInputModel extends Optional<StudentDB, 'id' | 'isActive' | 'createdAt' | 'updatedAt' | 'finishedAcademicPlan'> { }
 
 export default class StudentModel extends Model<StudentDB, StudentInputModel> implements StudentDB {
-  declare id: UUID
+  declare id: string
   declare studentNumber: string
   declare finishedAcademicPlan: boolean
-  declare courseProgramId: UUID
-  declare campusId: UUID
-  declare infoId: UUID
-  declare enrollmentTypeId: UUID
+  declare courseProgramId: string
+  declare campusId: string
+  declare userId: string
+  declare enrollmentTypeId: string
   declare createdAt: Date
   declare updatedAt: Date
   declare isActive: boolean
@@ -58,17 +57,17 @@ StudentModel.init({
     onDelete: 'RESTRICT',
     onUpdate: 'CASCADE'
   },
-  infoId: {
+  userId: {
     type: DataTypes.UUID,
     primaryKey: true,
     allowNull: false,
     references: {
-      model: 'personal_info',
+      model: 'user_account',
       key: 'id'
     },
     onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',
-    field: 'profile_id'
+    field: 'user_id'
   },
   enrollmentTypeId: {
     type: DataTypes.UUID,

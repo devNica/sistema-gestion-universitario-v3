@@ -11,11 +11,10 @@ import {
   CourseProgramModel,
   EnrollmentTypeModel,
   FileModel,
-  ProfileHasPictureModel,
+  UserHasPictureModel,
   UserAccountModel,
   RolModel,
-  UserHasRoleModel,
-  PersonalInfoModel
+  UserHasRoleModel
 } from './models'
 
 export class SequelizeAdapter implements DatabaseOutputPort {
@@ -36,7 +35,7 @@ export class SequelizeAdapter implements DatabaseOutputPort {
   async syncModels (alter: boolean): Promise<void> {
     try {
       // ADMISSION MODEL
-      AdmissionModel.belongsTo(PersonalInfoModel, { foreignKey: 'applicantId' })
+      AdmissionModel.belongsTo(UserAccountModel, { foreignKey: 'applicantId' })
 
       // CAMPUS MODEL
       CampusModel.hasMany(CampusHasCourseModel, { foreignKey: 'campusId' })
@@ -59,33 +58,29 @@ export class SequelizeAdapter implements DatabaseOutputPort {
       EnrollmentTypeModel.hasMany(StudentModel, { foreignKey: 'enrollmentTypeId' })
 
       // FILE MODEL
-      FileModel.hasMany(ProfileHasPictureModel, { foreignKey: 'fileId' })
+      FileModel.hasMany(UserHasPictureModel, { foreignKey: 'fileId' })
 
       // ORGANIZATION UNIT MODEL
       OrgUnitModel.hasMany(CourseModel, { foreignKey: 'unitId' })
 
-      // PERSONAL INFO MODEL
-      PersonalInfoModel.hasMany(UserAccountModel, { foreignKey: 'infoId' })
-      PersonalInfoModel.hasMany(ProfileHasPictureModel, { foreignKey: 'infoId' })
-      PersonalInfoModel.hasOne(AdmissionModel, { foreignKey: 'applicantId' })
-      PersonalInfoModel.hasMany(StudentModel, { foreignKey: 'infoId' })
-
       // PROFILE HAS PICTURE MODEL
-      ProfileHasPictureModel.belongsTo(FileModel, { foreignKey: 'fileId' })
-      ProfileHasPictureModel.belongsTo(FileModel, { foreignKey: 'infoId' })
+      UserHasPictureModel.belongsTo(FileModel, { foreignKey: 'fileId' })
+      UserHasPictureModel.belongsTo(UserAccountModel, { foreignKey: 'userId' })
 
       // ROL MODEL
       RolModel.hasMany(UserHasRoleModel, { foreignKey: 'rolId' })
       RolModel.belongsToMany(UserAccountModel, { through: 'user_has_role', foreignKey: 'rolId', onDelete: 'RESTRICT', onUpdate: 'CASCADE' })
 
       // STUDENT MODEL
-      StudentModel.belongsTo(PersonalInfoModel, { foreignKey: 'infoId' })
+      StudentModel.belongsTo(UserAccountModel, { foreignKey: 'userId' })
       StudentModel.belongsTo(EnrollmentTypeModel, { foreignKey: 'enrollmentTypeId' })
       StudentModel.belongsTo(CampusModel, { foreignKey: 'campusId' })
       StudentModel.belongsTo(CourseProgramModel, { foreignKey: 'courseProgramId' })
 
       // USER ACCOUNT MODEL
-      UserAccountModel.belongsTo(PersonalInfoModel, { foreignKey: 'infoId' })
+      UserAccountModel.hasMany(AdmissionModel, { foreignKey: 'applicantId' })
+      UserAccountModel.hasMany(StudentModel, { foreignKey: 'userId' })
+      UserAccountModel.hasMany(UserHasPictureModel, { foreignKey: 'userId' })
       UserAccountModel.belongsToMany(RolModel, { through: 'user_has_role', foreignKey: 'userId', onDelete: 'RESTRICT', onUpdate: 'CASCADE' })
 
       if (alter) {
