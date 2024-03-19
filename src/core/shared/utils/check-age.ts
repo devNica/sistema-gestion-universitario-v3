@@ -1,4 +1,4 @@
-import { dateRegex } from '@core/models/generic/custom-types.model'
+import { dateRegex } from '@core/domain/models/customs/custom-types.model'
 import type Joi from 'joi'
 import { type ErrorReport } from 'joi'
 

@@ -1,68 +1,27 @@
-import { type RefreshTokenIC } from '@auth/domain/models/controllers/controller-input.model'
-import { type RefreshTokenOC } from '@auth/domain/models/controllers/controller-output.model'
-import { type RefreshTokenUsecaseIP } from '@auth/domain/ports/input/auth-usecase.input.port'
-import { type FetchUserAccountByParamsOP } from '@auth/domain/ports/output/auth-repository.output.port'
-import ServiceValidationErrorPresenter from '@core/adapters/primary/presenters/service-validation-error.presenter'
-import { type UUID } from '@core/models/generic/custom-types.model'
-import { type StoreTokenModel } from '@core/models/token/token.model'
-import { type JWTOutputPort } from '@core/ports/output/security/jwt-output.port'
-import { type CacheOutputPort } from '@core/ports/output/service/cache-output.port'
-import { checkExpirationDate } from '@core/shared/utils/create-future-date'
+import { type NewTokenModel, type RefreshTokenModel } from '@auth/domain/ports/application/application-domain.model'
+import { type RefreshTokenPort } from '@auth/domain/ports/application/application-domain.port'
+import { type HttpRequestModel } from '@core/application/models/http/http-request.model'
+import { type HttpResponseModel } from '@core/application/models/http/http-response.model'
+import { type ControllerInputPort } from '@core/application/ports/controller-input.port'
+import { type PresenterOutputPort } from '@core/application/ports/presenter-output.port'
+import RequestValidationErrorPresenter from '@core/application/presenter/request-validation.presenter'
+import { objectKeyExists } from '@core/shared/utils/object-key-exist'
 
-export default class RefreshTokenUsecase implements RefreshTokenUsecaseIP {
+export default class RefreshTokenUseCase
+implements ControllerInputPort<NewTokenModel | never> {
   constructor (
-    private readonly userPort: FetchUserAccountByParamsOP,
-    private readonly tokenService: JWTOutputPort,
-    private readonly cacheService: CacheOutputPort<StoreTokenModel>
-  ) { }
+    private readonly service: RefreshTokenPort,
+    private readonly presenter: PresenterOutputPort<NewTokenModel>
+  ) {}
 
-  private async validateCurrentRefresToken (userId: UUID): Promise<void> {
-    try {
-      // recuperar tokens almancenado
-      const cacheTokens = await this.cacheService.getStoreByName('refreshtokens')
-
-      // filtrar para recuperar el token del usuario
-      const personalToken = cacheTokens.filter(t => t.userId === userId)
-
-      this.tokenService.verify(personalToken[0].token, false)
-    } catch (error: unknown) {
-      console.log(error)
-      throw new ServiceValidationErrorPresenter('Token de Recuperacion Expirados', 'forbiddenRequest')
-    }
-  }
-
-  private async storeRefreshToken (token: string, userId: UUID): Promise<void> {
-    try {
-      const cacheTokens = await this.cacheService.getStoreByName('refreshtokens')
-
-      const privatedToken = cacheTokens.filter(t => t.userId !== userId)
-      await this.cacheService.updateStoreByName('refreshtokens', [...privatedToken,
-        { userId, token, createdAt: Date.now() }
-      ])
-    } catch (error) {
-      throw new ServiceValidationErrorPresenter(String(error))
-    }
-  }
-
-  async refreshToken (request: RefreshTokenIC): Promise<RefreshTokenOC> {
-    const userFound = await this.userPort.fetchAccount({ userId: request.userId })
-
-    // validate password expires
-    if (!checkExpirationDate(userFound.expiresIn)) {
-      throw new ServiceValidationErrorPresenter('Contraseña Expirada', 'temporaryRedirect')
+  async handleRequest (request: HttpRequestModel<RefreshTokenModel>): Promise<HttpResponseModel<NewTokenModel>> {
+    if (!objectKeyExists(request, 'params')) {
+      throw new RequestValidationErrorPresenter('Error in request body')
     }
 
-    // validate refresh token
-    await this.validateCurrentRefresToken(userFound.id)
+    const { userId } = request.params
 
-    // generate new tokens
-    const sessionToken = this.tokenService.signAccessToken({ id: userFound.id, rol: userFound.rol })
-    const refreshToken = this.tokenService.signRefreshToken({ id: userFound.id, rol: userFound.rol })
-
-    await this.storeRefreshToken(refreshToken.token, userFound.id)
-
-    return {
-      token: sessionToken.token
-    }
+    const result = await this.service.refreshToken({ userId })
+    return await this.presenter.handleResponse(result, 'Refresco de token exitoso')
   }
 }
