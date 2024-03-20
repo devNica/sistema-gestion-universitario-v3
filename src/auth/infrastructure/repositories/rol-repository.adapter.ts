@@ -3,7 +3,7 @@ import { type RolRepositoryPort } from '@auth/domain/ports/repository/repository
 import InternalServerErrorPresenter from '@core/application/presenter/internal-server-error.presenter'
 import RepositoryValidationErrorPresenter from '@core/application/presenter/repository-validation.presenter'
 import { type AuthenticationRolModel } from '@core/domain/models/api/auth.model'
-import { RolModel } from '@core/infraestructure/sequelize/models'
+import { RolModel } from '@core/infrastructure/sequelize/models'
 import { QueryError } from 'sequelize'
 
 class RolRepositoryAdapter implements RolRepositoryPort<RolEntity> {

@@ -21,7 +21,7 @@ export interface CampusDB {
   campusName: string
   address: string
   email: string
-  phones: string
+  phones: Array<{ tel: string }>
 }
 
 export interface CampusHasCourseDB {

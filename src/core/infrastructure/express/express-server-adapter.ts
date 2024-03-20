@@ -1,4 +1,5 @@
-import authenticationRouter from '@auth/infraestructure/routes/auth.routes'
+import authenticationRouter from '@auth/infrastructure/routes/auth.router'
+import backofficeRouter from '@backoffice/infrastructure/routes/backoffice.router'
 import { type ControllerModel } from '@core/domain/models/api/controller.model'
 import { setupErrorHandler } from '@core/framework/express/express-setup-error-handler'
 import { setupGlobalMiddleware } from '@core/framework/express/express-setup-global-middlewares'
@@ -19,6 +20,7 @@ export class ExpressServerAdapter {
 
   private controllerRegister (): void {
     this.controllers.push({ path: `${constants.PREFIX}/auth`, controller: authenticationRouter })
+    this.controllers.push({ path: `${constants.PREFIX}/backoffice`, controller: backofficeRouter })
   }
 
   public async start (): Promise<void> {

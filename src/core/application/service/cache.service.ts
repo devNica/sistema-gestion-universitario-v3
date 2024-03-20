@@ -1,6 +1,6 @@
 import { type CacheServiceOutputPort } from '@core/domain/ports/cache/cache-service.port'
-import { type RedisOutputPort } from '@core/infraestructure/ports/redis/redis.port'
-import { redisAdapter } from '@core/infraestructure/redis/redis.adapter'
+import { type RedisOutputPort } from '@core/infrastructure/ports/redis/redis.port'
+import { redisAdapter } from '@core/infrastructure/redis/redis.adapter'
 
 export default class CacheService <T> implements CacheServiceOutputPort<T> {
   private readonly cache: RedisOutputPort

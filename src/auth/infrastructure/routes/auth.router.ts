@@ -8,8 +8,8 @@ import { refreshTokenFactory } from '@auth/factory/refresh-token.factory'
 import { resetUserAccountPasswordFactory } from '@auth/factory/reset-password.factory'
 import { userLoginFactory } from '@auth/factory/user-login.factory'
 import { validatorSchemaFactory } from '@core/factory/validator-schema.factory'
-import { expressMiddlewareAdapter } from '@core/infraestructure/express/express-middleware.adapter'
-import { expressRouteAdapter } from '@core/infraestructure/express/express-route.adapter'
+import { expressMiddlewareAdapter } from '@core/infrastructure/express/express-middleware.adapter'
+import { expressRouteAdapter } from '@core/infrastructure/express/express-route.adapter'
 import { Router } from 'express'
 
 const authenticationRouter = Router()

@@ -13,7 +13,17 @@ function isUUIDV4 (str: string): boolean {
   return patron.test(str)
 }
 
+function checkProperties (obj: any, properties: string[]): boolean {
+  for (const prop of properties) {
+    if (!(prop in obj)) {
+      return false
+    }
+  }
+  return true
+}
+
 export {
   objectKeyExists,
-  isUUIDV4
+  isUUIDV4,
+  checkProperties
 }

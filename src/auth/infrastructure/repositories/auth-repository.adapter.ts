@@ -6,7 +6,7 @@ import RepositoryValidationErrorPresenter from '@core/application/presenter/repo
 import InternalServerErrorPresenter from '@core/application/presenter/internal-server-error.presenter'
 import { sequelizeInstance } from '@core/shared/configs/sequelize-client.config'
 import { type UserEntity } from '@auth/domain/entities/AuthEntity'
-import { UserAccountModel, UserHasRoleModel } from '@core/infraestructure/sequelize/models'
+import { UserAccountModel, UserHasRoleModel } from '@core/infrastructure/sequelize/models'
 import { type UserAccountDB } from '@core/domain/entities/AuthEntity'
 
 class AuthRepositoryAdapter

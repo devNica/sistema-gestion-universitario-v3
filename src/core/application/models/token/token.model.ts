@@ -1,4 +1,4 @@
-import { type UserAccountEntity } from '@core/domain/entities/AuthEntity'
+import { type UserEntity } from '@auth/domain/entities/AuthEntity'
 
 export interface TokenModel {
   userId: string
@@ -6,7 +6,7 @@ export interface TokenModel {
   expiresIn: string
 }
 
-export type TokenPayloadModel = Pick<UserAccountEntity, 'userId'> & {
+export type TokenPayloadModel = Pick<UserEntity, 'userId'> & {
   rol: string
 }
 

@@ -10,7 +10,7 @@ export default class CampusModel extends Model<CampusDB, CampusInputModel> imple
   declare campusName: string
   declare address: string
   declare email: string
-  declare phones: string
+  declare phones: Array<{ tel: string }>
 }
 
 CampusModel.init({

@@ -2,8 +2,8 @@ import 'reflect-metadata'
 import 'source-map-support/register'
 import 'module-alias/register'
 
-import { SequelizeAdapter } from '@core/infraestructure/sequelize/sequelize.adapter'
-import { ExpressServerAdapter } from '@core/infraestructure/express/express-server-adapter'
+import { SequelizeAdapter } from '@core/infrastructure/sequelize/sequelize.adapter'
+import { ExpressServerAdapter } from '@core/infrastructure/express/express-server-adapter'
 import constants from '@core/shared/constants'
 import { appExpress, server } from '@core/shared/configs/server.config'
 
