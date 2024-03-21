@@ -1,11 +1,10 @@
 import { type CampusHasCourseDB } from '@core/domain/entities/BackOfficeEntity'
-import { type UUID } from '@core/domain/models/customs/custom-types.model'
 import { sequelizeInstance } from '@core/shared/configs/sequelize-client.config'
 import { DataTypes, Model } from 'sequelize'
 
 export default class CampusHasCourseModel extends Model<CampusHasCourseDB> implements CampusHasCourseDB {
-  declare campusId: UUID
-  declare courseId: UUID
+  declare campusId: string
+  declare courseId: string
 }
 
 CampusHasCourseModel.init({

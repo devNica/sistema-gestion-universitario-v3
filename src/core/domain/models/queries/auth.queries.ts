@@ -3,16 +3,14 @@ export const fetchAccountByUsernameQuery = (): string => `
 
         uac.id,
         uac.username,
-        uac.password,
+        uac.password as "passwordHashed",
         uac.state,
         uac.expires_in as "expiresIn",
-        pif.firstname,
-        pif.lastname,
-        pif.phone_number,
-        rol.rol
+        uac.personal_info as "personalInfo",
+        rol.rol,
+        rol.id as "rolId"
 
     FROM develop.user_account as uac
-    INNER JOIN develop.personal_info as pif on pif.id = uac.profile_id
     INNER JOIN develop.user_has_role as uhr on uhr.user_id = uac.id
     INNER JOIN develop.rol as rol on rol.id = uhr.rol_id
     WHERE uac.username = :username or uac.id = :userId

@@ -16,7 +16,7 @@ export default class ResetPasswordDomainService implements ResetPasswordPort {
 
   async resetPassword (request: ResetPasswordModel): Promise<EmptyResponseModel> {
     if (request?.rol === 'administrador') {
-      await this.repository.update(
+      await this.repository.updatePassword(
         { username: request.username },
         {
           passwordHashed: await this.encryptor.passwordEncrypt(request.newPassword),
@@ -31,7 +31,7 @@ export default class ResetPasswordDomainService implements ResetPasswordPort {
 
       if (!verify) throw new ServiceValidationErrorPresenter('unAuthorizedRequest', 'La contrasenia anterior no pudo ser verificada')
 
-      await this.repository.update(
+      await this.repository.updatePassword(
         { username: request.username },
         {
           passwordHashed: await this.encryptor.passwordEncrypt(request.newPassword),

@@ -2,6 +2,15 @@ export interface ServicePhonesVO {
   tel: string
 }
 
+export interface CourseVO {
+  courseId: string
+  courseName: string
+  reference: string
+  isActive: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
 export class CourseEntity {
   constructor (
     public courseId: string,
@@ -21,7 +30,8 @@ export class AcademicCampusEntity {
     public address: string,
     public email: string,
     public phones: ServicePhonesVO[],
-    public courses?: Omit<CourseEntity, 'unitId'>
+    public linkCourses: Array<Pick<CourseEntity, 'courseId'>>,
+    public courses: CourseVO[]
   ) {}
 }
 
@@ -30,6 +40,6 @@ export class OrganizationalUnitEntity {
     public unitId: string,
     public unitName: string,
     public reference: string,
-    public courses?: Array<Omit<CourseEntity, 'courseId'>>
+    public courses: CourseVO[]
   ) {}
 }

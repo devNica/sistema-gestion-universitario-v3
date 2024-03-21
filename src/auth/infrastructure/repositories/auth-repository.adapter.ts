@@ -8,6 +8,7 @@ import { sequelizeInstance } from '@core/shared/configs/sequelize-client.config'
 import { type UserEntity } from '@auth/domain/entities/AuthEntity'
 import { UserAccountModel, UserHasRoleModel } from '@core/infrastructure/sequelize/models'
 import { type UserAccountDB } from '@core/domain/entities/AuthEntity'
+import constants from '@core/shared/constants'
 
 class AuthRepositoryAdapter
 implements CreateUserPort,
@@ -22,7 +23,7 @@ UserSpecificationPort<UserEntity> {
       const user: UserEntity[] = await this.db.query(fetchAccountByUsernameQuery(), {
         replacements: {
           username: data.username ?? '',
-          userId: data.userId ?? ''
+          userId: data.userId ?? constants.FAKE_UUID
         },
         type: QueryTypes.SELECT
       })
@@ -30,31 +31,36 @@ UserSpecificationPort<UserEntity> {
       if (user.length === 0) throw new RepositoryValidationErrorPresenter('Usuario no encontrado')
       return { ...user[0] }
     } catch (error) {
+      console.log(error)
       if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
         throw new RepositoryValidationErrorPresenter(error.message)
       } else {
-        throw new InternalServerErrorPresenter('Creacion de cuenta de usuario fallida')
+        throw new InternalServerErrorPresenter('Error al consultar cuentas de usuario')
       }
     }
   }
 
-  async update (
+  async updatePassword (
     params: Partial<Pick<UserEntity, 'userId' | 'username'>>,
     data: Partial<Pick<UserEntity, keyof UserEntity>>): Promise<void> {
     try {
-      await UserAccountModel.update({ ...data }, {
+      await UserAccountModel.update({
+        expiresIn: data.expiresIn,
+        password: data.passwordHashed
+      }, {
         where: {
           [Op.or]: [
             { username: params.username },
-            { id: params.userId }
+            { id: params.userId ?? constants.FAKE_UUID }
           ]
         }
       })
     } catch (error) {
+      console.log(error)
       if (error instanceof UniqueConstraintError || error instanceof ValidationError) {
         throw new RepositoryValidationErrorPresenter(error.message)
       } else {
-        throw new InternalServerErrorPresenter('Creacion de cuenta de usuario fallida')
+        throw new InternalServerErrorPresenter('actualizacion de contrasenia fallida')
       }
     }
   }

@@ -20,6 +20,6 @@ export default class CourseRegistrationUseCase implements ControllerInputPort<Em
     }
 
     const result = await this.service.register({ ...request.body })
-    return await this.presenter.handleResponse(result, 'Registro de Unidad exitoso!')
+    return await this.presenter.handleResponse(result, 'Registro de curso exitoso!')
   }
 }

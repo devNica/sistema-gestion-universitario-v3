@@ -15,3 +15,15 @@ export interface CourseRegistrationModel {
   reference: string
   unitId: string
 }
+
+export interface LinkCoursesToCampusModel {
+  campusId: string
+  courses: Array<{ courseId: string }>
+}
+
+export interface FoundCoursesModel {
+  courseId: string
+  courseName: string
+  reference: string
+  isActive: boolean
+}

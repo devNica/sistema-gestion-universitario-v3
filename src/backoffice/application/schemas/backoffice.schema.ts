@@ -39,3 +39,13 @@ export const courseRegistrationSchema: Joi.ObjectSchema = Joi.object({
     'string.guid': 'ID del area de conocimiento es incorrecto'
   })
 })
+
+export const linkCoursesToCampusSchema: Joi.ObjectSchema = Joi.object({
+  courses: Joi.array().items({
+    courseId: Joi.string().guid({ version: 'uuidv4' }).required().messages({
+      'any.required': 'Id de curso requerido',
+      'string.base': 'Formato del ID del curso Incorrecto',
+      'string.guid': 'Formato del ID del curso Incorrecto'
+    })
+  }).required()
+})

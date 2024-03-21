@@ -20,6 +20,6 @@ implements ControllerInputPort<LoggedUserModel | never> {
     }
 
     const result = await this.service.login({ ...request.body })
-    return await this.presenter.handleResponse(result, 'Registro exitoso!')
+    return await this.presenter.handleResponse(result, 'Inicio de Sesion Exitoso!')
   }
 }

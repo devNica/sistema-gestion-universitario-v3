@@ -12,7 +12,7 @@ export interface RolRepositoryPort<T extends RolEntity> {
 
 export interface UserRepositoryPort<T extends UserEntity> {
   fetch: (data: Partial<Pick<T, keyof T>>) => Promise<UserEntity | never>
-  update: (params: Partial<Pick<T, 'username' | 'userId'>>, data: Partial<Pick<T, keyof T>>) => Promise<void>
+  updatePassword: (params: Partial<Pick<T, 'username' | 'userId'>>, data: Partial<Pick<T, 'passwordHashed' | 'expiresIn'>>) => Promise<void>
   upgrade: (data: Pick<T, 'userId' | 'rolInfo'>) => Promise<void>
 }
 
